@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>VR Video Player with Danmaku</title>
+  <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script>
+  <style>
+    #play-button, #upload-button, #link-button, #exit-button, #link-confirm, #mic-button, #rewind-button, #pause-button, #forward-button, #print-button {
+      position: fixed;
+      top: 10px;
+      font-size: 1.5rem;
+      width: 3em;
+      height: 3em;
+      background-color: #333;
+      border-radius: 50%;
+      z-index: 10;
+      color: #fff;
+      border: none;
+    }
+    #play-button {
+      left: calc(50% - 7em);
+    }
+    #upload-button {
+      left: calc(50% - 3.5em);
+    }
+    #link-button {
+      left: calc(50% + 0.5em);
+    }
+    #exit-button {
+      display: none;
+      top: 1em;
+      left: 1em;
+    }
+    #link-confirm {
+      top: calc(50% + 2em);
+      left: calc(50% + 10em);
+      display: none;
+    }
+    #mic-button {
+      top: 10px;
+      right: 10px;
+      display: none;
+    }
+    #rewind-button {
+      left: calc(50% - 13em);
+      display: none;
+    }
+    #pause-button {
+      left: calc(50% - 9em);
+      display: none;
+    }
+    #forward-button {
+      left: calc(50% - 5em);
+      display: none;
+    }
+    #print-button {
+      left: calc(50% - 17em);
+      display: none;
+    }
+    #upload-input {
+      display: none;
+    }
+    #link-input {
+      position: fixed;
+      top: calc(50% + 2em);
+      left: calc(50% - 10em);
+      width: 20em;
+      font-size: 1rem;
+      padding: 0.5em;
+      z-index: 10;
+      display: none;
+    }
+    #danmaku-input {
+      position: fixed;
+      bottom: 1em;
+      left: calc(50% - 10em);
+      width: 20em;
+      font-size: 1rem;
+      padding: 0.5em;
+      z-index: 10;
+      display: none;
+    }
+    #danmaku-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .center-dot {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      z-index: 10;
+    }
+    #video-controls {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 60%;
+    }
+    #video-controls input[type="range"] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <button id="play-button">▶</button>
+  <button id="upload-button">↑</button>
+  <button id="link-button">🔗</button>
+  <button id="exit-button">✖</button>
+  <button id="link-confirm">✔</button>
+  <button id="mic-button">🎤</button>
+  <button id="rewind-button">⏪</button>
+  <button id="pause-button">⏸</button>
+  <button id="forward-button">⏩</button>
+  <button id="print-button">🖨</button>
+  <input type="file" id="upload-input" accept="video/*">
+  <input type="text" id="link-input" placeholder="Type in video link and enter">
+  <input type="text" id="danmaku-input" placeholder="Type in pop-up and enter">
+  <div id="danmaku-container"></div>
+  <div class="center-dot"></div>
+
+  <div id="video-controls">
+    <input type="range" id="timeline" value="0" max="100">
+  </div>
+
+  <a-scene id="vr-scene" vr-mode-ui="enabled: true">
+    <a-assets>
+      <video
+        id="vid"
+        playsinline
+        crossorigin="anonymous"
+        autoplay="true"
+        loop="true"
+        style="display: none"
+      ></video>
+    </a-assets>
+
+    <a-entity
+      id="video-sphere"
+      geometry="primitive: sphere; radius: 3000; segmentsWidth: 64; segmentsHeight: 64;"
+      material="shader: flat; src: #vid;"
+      scale="-1 1 1"
+    ></a-entity>
+    
+    <a-entity id="camera" camera look-controls position="0 1.6 0">
+      <a-cursor fuse="true" fuse-timeout="2000"></a-cursor>
+    </a-entity>
+  </a-scene>
+
+  <script>
+    var vid = document.getElementById('vid');
+    var playButton = document.getElementById('play-button');
+    var uploadButton = document.getElementById('upload-button');
+    var linkButton = document.getElementById('link-button');
+    var exitButton = document.getElementById('exit-button');
+    var uploadInput = document.getElementById('upload-input');
+    var linkInput = document.getElementById('link-input');
+    var linkConfirm = document.getElementById('link-confirm');
+    var micButton = document.getElementById('mic-button');
+    var danmakuInput = document.getElementById('danmaku-input');
+    var rewindButton = document.getElementById('rewind-button');
+    var pauseButton = document.getElementById('pause-button');
+    var forwardButton = document.getElementById('forward-button');
+    var printButton = document.getElementById('print-button');
+    var timeline = document.getElementById('timeline');
+    var scene = document.getElementById('vr-scene');
+    var currentVideoLink = '';
+    var currentInput = '';
+    var danmakuList = [];
+    var lastTouchTime = 0;
+    var touchCount = 0;
+    var recognitionActive = false;
+
+      // Set the speed at which the video moves (assuming units of metres per second)
+      var videoSpeed = 1.0; // Adjusts to the actual movement speed of the video
+
+      // Connecting to a WebSocket Server (Popup Server)
+    var ws = new WebSocket('wss://vrdanmaku.uk:8080');
+    
+    ws.onopen = function() {
+      console.log('Connected to WebSocket server');
+    };
+
+    ws.onmessage = function(event) {
+      try {
+        var data = JSON.parse(event.data);
+        if (data.type === 'existing_danmaku') {
+          data.data.forEach(danmakuMessage => {
+            addDanmaku(danmakuMessage.text, danmakuMessage.position, danmakuMessage.time);
+          });
+        } else if (data.type === 'new_danmaku') {
+          addDanmaku(data.data.text, data.data.position, data.data.time);
+        }
+      } catch (e) {
+        console.error('Error parsing message', e);
+      }
+    };
+
+    ws.onclose = function() {
+      console.log('Disconnected from WebSocket server');
+    };
+
+    function requestDeviceMotionPermission() {
+      if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              console.log('DeviceMotion permission granted.');
+            } else {
+              alert('DeviceMotion permission denied.');
+            }
+          })
+          .catch(console.error);
+      }
+    }
+
+    playButton.addEventListener("click", function(e) {
+      requestDeviceMotionPermission();
+      if (!vid.src || vid.src === window.location.href) {
+        alert("Please upload the video or a link to the video first!");
+        return;
+      }
+      this.style.display = 'none';
+      uploadButton.style.display = 'none';
+      linkButton.style.display = 'none';
+      linkInput.style.display = 'none';
+      linkConfirm.style.display = 'none';
+      exitButton.style.display = 'block';
+      danmakuInput.style.display = 'block';
+      micButton.style.display = 'block'; 
+      rewindButton.style.display = 'block';
+      pauseButton.style.display = 'block';
+      forwardButton.style.display = 'block';
+      printButton.style.display = 'block';
+        vid.play(); // Video default playback
+        startDanmakuMovement(); // Starting pop-up movement
+    }, false);
+
+    uploadButton.addEventListener("click", function(e) {
+      uploadInput.click();
+    }, false);
+
+    uploadInput.addEventListener("change", function(e) {
+      var file = e.target.files[0];
+      var url = URL.createObjectURL(file);
+      vid.src = url;
+      currentVideoLink = url;
+      playButton.style.display = 'block';
+      vid.load();
+      ws.send(JSON.stringify({ type: 'new_video', videoLink: url }));
+    }, false);
+
+    linkButton.addEventListener("click", function(e) {
+      linkInput.style.display = 'block';
+      linkConfirm.style.display = 'block';
+      linkInput.focus();
+    }, false);
+
+    linkInput.addEventListener("keypress", function(e) {
+      if (e.key === 'Enter') {
+        var url = linkInput.value;
+        vid.src = url;
+        currentVideoLink = url;
+        playButton.style.display = 'block';
+        linkInput.style.display = 'none';
+        linkConfirm.style.display = 'none';
+        vid.load();
+        ws.send(JSON.stringify({ type: 'new_video', videoLink: url }));
+      }
+    }, false);
+
+    linkConfirm.addEventListener("click", function(e) {
+      var url = linkInput.value;
+      vid.src = url;
+      currentVideoLink = url;
+      playButton.style.display = 'block';
+      linkInput.style.display = 'none';
+      linkConfirm.style.display = 'none';
+      vid.load();
+      ws.send(JSON.stringify({ type: 'new_video', videoLink: url }));
+    }, false);
+
+    danmakuInput.addEventListener("keypress", function(e) {
+      if (e.key === 'Enter') {
+          var text = formatDanmakuText(danmakuInput.value); // Formatting pop-up text
+          var camera = document.getElementById('camera'); // Get the a-camera element
+        var position = getWorldPosition(camera);
+        addDanmaku(text, position, vid.currentTime);
+        danmakuInput.value = '';
+          // Sending a popup to a WebSocket server
+        ws.send(JSON.stringify({ type: 'new_danmaku', text: text, position: position, videoLink: currentVideoLink, time: vid.currentTime }));
+      }
+    });
+
+    exitButton.addEventListener("click", function(e) {
+      vid.pause();
+      vid.src = '';
+      currentVideoLink = '';
+      playButton.style.display = 'block';
+      uploadButton.style.display = 'block';
+      linkButton.style.display = 'block';
+      linkInput.style.display = 'block';
+      linkConfirm.style.display = 'block';
+      danmakuInput.style.display = 'none';
+      micButton.style.display = 'none'; 
+      rewindButton.style.display = 'none';
+      pauseButton.style.display = 'none';
+      forwardButton.style.display = 'none';
+      printButton.style.display = 'none';
+      this.style.display = 'none';
+    }, false);
+
+      // Handling touch screen events
+    document.body.addEventListener("touchstart", handleTouchStart, false);
+
+    function handleTouchStart(e) {
+        if (e.target.id === 'mic-button' || e.target.id === 'rewind-button' || e.target.id === 'pause-button' || e.target.id === 'forward-button' || e.target.id === 'print-button') return; // If the microphone button is clicked, skip it
+
+      var currentTime = new Date().getTime();
+        if (currentTime - lastTouchTime < 800) { // Modify the time window to accommodate quadruple hits
+        touchCount++;
+      } else {
+        touchCount = 1;
+      }
+      lastTouchTime = currentTime;
+
+      setTimeout(() => {
+        if (touchCount === 1) {
+          togglePlayPause();
+        } else if (touchCount === 2) {
+            vid.currentTime += 0.2; // Fast forward 0.2s
+        } else if (touchCount === 3) {
+            vid.currentTime -= 0.2; // Reverse 0.2s
+        } else if (touchCount === 4) {
+            toggleMic(); // Quadruple-tap to turn the microphone on or off
+        }
+          updateDanmakuPositions(); // Updating pop-up positions after fast-forwarding or rewinding
+          touchCount = 0; // Reset Touch Count
+      }, 1000); // Delayed processing of combos to avoid false triggers
+    }
+
+    function togglePlayPause() {
+      if (vid.paused) {
+        vid.play();
+      } else {
+        vid.pause();
+      }
+        updateDanmakuPositions(); // Updates pop-up positions during pause or playback
+    }
+
+    function toggleMic() {
+      if (!recognitionActive) {
+        if (recognition) {
+          recognition.start();
+          recognitionActive = true;
+            micButton.style.backgroundColor = 'green'; // Turns green when recording
+        }
+      } else {
+        if (recognition) {
+          recognition.stop();
+          recognitionActive = false;
+            micButton.style.backgroundColor = 'red'; // Turns red when recording stops
+        }
+      }
+    }
+
+    function getWorldPosition(camera) {
+      var direction = new THREE.Vector3();
+      camera.object3D.getWorldDirection(direction);
+      direction.multiplyScalar(-2); // Set distance
+      var position = camera.object3D.position.clone().add(direction);
+      return { x: position.x, y: position.y, z: position.z };
+    }
+
+    function addDanmaku(text, position, startTime) {
+      danmakuList.push({ text: text, position: position, startTime: startTime, shown: false });
+    }
+
+    function updateDanmakuPositions() {
+      var currentTime = vid.currentTime;
+
+      danmakuList.forEach(function(danmaku) {
+        if (!danmaku.shown && currentTime >= danmaku.startTime) {
+          var danmakuEntity = document.createElement('a-entity');
+          danmakuEntity.setAttribute('text', {
+            value: danmaku.text,
+            color: 'white',
+            align: 'center',
+            width: 1, 
+              wrapCount: 20 // Adjust line feed width as needed
+          });
+          danmakuEntity.setAttribute('position', danmaku.position);
+          danmakuEntity.setAttribute('look-at', '[camera]');
+          scene.appendChild(danmakuEntity);
+
+          danmaku.entity = danmakuEntity;
+          danmaku.shown = true;
+        }
+
+        if (danmaku.shown) {
+          var elapsedTime = currentTime - danmaku.startTime;
+          var distanceTraveled = elapsedTime * videoSpeed;
+
+          var newPosition = {
+            x: danmaku.position.x + distanceTraveled,
+            y: danmaku.position.y,
+            z: danmaku.position.z
+          };
+
+          danmaku.entity.setAttribute('position', newPosition);
+        }
+      });
+    }
+
+    function startDanmakuMovement() {
+      function move() {
+        if (!vid.paused) {
+          updateDanmakuPositions();
+        }
+          requestAnimationFrame(move); // Loop call to make popups move during playback
+      }
+        move(); // Initiate pop-up movement
+    }
+
+      // Format pop-up text with line breaks every three words
+    function formatDanmakuText(text) {
+      var words = text.split(' ');
+      for (var i = 3; i < words.length; i += 4) {
+        words[i] = words[i] + '\n';
+      }
+      return words.join(' ');
+    }
+
+      // Handling Web Speech API Speech Recognition
+    var recognition;
+    if ('webkitSpeechRecognition' in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = function(event) {
+          var transcript = formatDanmakuText(event.results[0][0].transcript); // Formatting Speech Recognition Text
+        var camera = document.getElementById('camera');
+        var position = getWorldPosition(camera);
+        addDanmaku(transcript, position, vid.currentTime);
+        ws.send(JSON.stringify({ type: 'new_danmaku', text: transcript, position: position, videoLink: currentVideoLink, time: vid.currentTime }));
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error', event);
+      };
+    }
+
+      // Controlling the behaviour of the microphone button
+    micButton.addEventListener("click", function() {
+      toggleMic();
+    });
+
+      // Synchronisation of timeline controls with video
+    vid.addEventListener('timeupdate', function() {
+      var value = (100 / vid.duration) * vid.currentTime;
+      timeline.value = value;
+    });
+
+    timeline.addEventListener('input', function() {
+      var time = (timeline.value * vid.duration) / 100;
+      vid.currentTime = time;
+        updateDanmakuPositions(); // Updated pop-up locations
+    });
+
+      // Print pop-up message
+    printButton.addEventListener("click", function() {
+      var output = "Danmaku Information:\n\n";
+      danmakuList.forEach(function(danmaku) {
+        output += `Text: ${danmaku.text}, Position: (${danmaku.position.x}, ${danmaku.position.y}, ${danmaku.position.z}), Time: ${danmaku.startTime}s\n`;
+      });
+      var blob = new Blob([output], { type: "text/plain;charset=utf-8" });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "danmaku_info.txt";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+      // Bind button function
+    rewindButton.addEventListener("click", function() {
+      vid.currentTime -= 0.2;
+      updateDanmakuPositions();
+    });
+
+    pauseButton.addEventListener("click", function() {
+      togglePlayPause();
+    });
+
+    forwardButton.addEventListener("click", function() {
+      vid.currentTime += 0.2;
+      updateDanmakuPositions();
+    });
+
+  </script>
+</body>
+</html>
+
+
