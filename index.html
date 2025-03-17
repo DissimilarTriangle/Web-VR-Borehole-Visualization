@@ -37,6 +37,15 @@
       left: 10px;
     }
 
+    #upload-input {
+      display: none;
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+
     #link-button {
       top: 10px;
       left: calc(10px + 4em);
@@ -712,6 +721,8 @@
 
     pauseButton.addEventListener("click", function () {
       togglePlayPause();
+      this.style.display = 'none';
+      playButton.style.display = 'block';
     });
 
     forwardButton.addEventListener("click", function () {
