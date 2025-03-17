@@ -598,28 +598,34 @@
         currentVideoIndex === 1 ? vid1.currentTime : vid2.currentTime;
 
       danmakuList.forEach(function (danmaku) {
-        // remove previous danmaku
-        if (danmaku.entity) {
-          scene.removeChild(danmaku.entity);
-          danmaku.shown = false;
-          danmaku.entity = null;
-        }
-
-        // display current danmaku
         if (!danmaku.shown && currentTime >= danmaku.startTime) {
-          var danmakuEntity = document.createElement("a-entity");
-          danmakuEntity.setAttribute("text", {
+          var danmakuEntity = document.createElement('a-entity');
+          danmakuEntity.setAttribute('text', {
             value: danmaku.text,
-            color: "white",
-            align: "center",
+            color: 'white',
+            align: 'center',
             width: 1,
-            wrapCount: 20,
+            wrapCount: 20 // Adjust line feed width as needed  
           });
-          danmakuEntity.setAttribute("position", danmaku.position);
-          danmakuEntity.setAttribute("look-at", "[camera]");
+          danmakuEntity.setAttribute('position', danmaku.position);
+          danmakuEntity.setAttribute('look-at', '[camera]');
           scene.appendChild(danmakuEntity);
+
           danmaku.entity = danmakuEntity;
           danmaku.shown = true;
+        }
+
+        if (danmaku.shown) {
+          var elapsedTime = currentTime - danmaku.startTime;
+          var distanceTraveled = elapsedTime * videoSpeed;
+
+          var newPosition = {
+            x: danmaku.position.x + distanceTraveled,
+            y: danmaku.position.y,
+            z: danmaku.position.z
+          };
+
+          danmaku.entity.setAttribute('position', newPosition);
         }
       });
     }
