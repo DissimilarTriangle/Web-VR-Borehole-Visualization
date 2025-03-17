@@ -7,18 +7,21 @@
   <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script>
   <style>
-    #play-button,
     #upload-button,
     #link-button,
     #exit-button,
     #link-confirm,
-    #mic-button,
+    #video-list-button,
+    #switch-video-button,
+
+    #print-button,
+
     #rewind-button,
+    #play-button,
     #pause-button,
     #forward-button,
-    #print-button {
+    #mic-button {
       position: fixed;
-      top: 10px;
       font-size: 1.5rem;
       width: 3em;
       height: 3em;
@@ -29,16 +32,14 @@
       border: none;
     }
 
-    #play-button {
-      left: calc(50% - 7em);
-    }
-
     #upload-button {
-      left: calc(50% - 3.5em);
+      top: 10px;
+      left: 10px;
     }
 
     #link-button {
-      left: calc(50% + 0.5em);
+      top: 10px;
+      left: calc(10px + 4em);
     }
 
     #exit-button {
@@ -53,34 +54,65 @@
       display: none;
     }
 
-    #mic-button {
+    #video-list-button {
       top: 10px;
-      right: 10px;
+      left: 10px;
       display: none;
     }
 
-    #rewind-button {
-      left: calc(50% - 13em);
-      display: none;
-    }
-
-    #pause-button {
-      left: calc(50% - 9em);
-      display: none;
-    }
-
-    #forward-button {
-      left: calc(50% - 5em);
-      display: none;
+    #switch-video-button {
+      top: 10px;
+      left: calc(50% - 21em);
     }
 
     #print-button {
-      left: calc(50% - 17em);
+      top: 10px;
+      right: 10px;
+    }
+
+    #rewind-button {
+      bottom: 1em;
+      left: calc(1em);
+    }
+
+    #pause-button {
+      bottom: 1em;
+      left: calc(4.5em);
       display: none;
     }
 
-    #upload-input {
-      display: none;
+    #play-button {
+      bottom: 1em;
+      left: calc(4.5em);
+    }
+
+    #forward-button {
+      bottom: 1em;
+      left: calc(8em);
+    }
+
+    #video-controls {
+      position: fixed;
+      bottom: 1em;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 60%;
+    }
+
+    #danmaku-input {
+      position: fixed;
+      bottom: 1em;
+      left: calc(50% - 10em);
+      width: 20em;
+      font-size: 1rem;
+      padding: 0.5em;
+      z-index: 10;
+    }
+
+    #mic-button {
+      bottom: 1em;
+      right: calc(6em);
     }
 
     #link-input {
@@ -102,7 +134,6 @@
       font-size: 1rem;
       padding: 0.5em;
       z-index: 10;
-      display: none;
     }
 
     #danmaku-container {
@@ -115,20 +146,6 @@
       z-index: 10;
     }
 
-    #switch-video-button {
-      position: fixed;
-      top: 10px;
-      left: calc(50% - 21em);
-      font-size: 1.5rem;
-      width: 3em;
-      height: 3em;
-      background-color: #333;
-      border-radius: 50%;
-      z-index: 10;
-      color: #fff;
-      border: none;
-      display: none;
-    }
 
     .center-dot {
       position: fixed;
@@ -169,6 +186,7 @@
   <button id="forward-button">⏩</button>
   <button id="print-button">🖨</button>
   <button id="switch-video-button">🔄</button>
+  <button id="video-list-button">📋</button>
   <input type="file" id="upload-input" accept="video/*" />
   <input type="text" id="link-input" placeholder="Type in video link and enter" />
   <input type="text" id="danmaku-input" placeholder="Type in danmaku and enter" />
@@ -194,6 +212,27 @@
       <a-cursor fuse="true" fuse-timeout="2000"></a-cursor>
     </a-entity>
   </a-scene>
+
+  <!-- <div id="video-list-panel" style="display: none;">
+    <div class="panel-header">
+      <h3>Video List</h3>
+      <button id="close-panel">✖</button>
+    </div>
+    <div class="video-slots">
+      <div class="video-slot">
+        <span>Video 1:</span>
+        <span id="video1-name">Not loaded</span>
+        <button class="upload-slot">Upload</button>
+        <button class="link-slot">Link</button>
+      </div>
+      <div class="video-slot">
+        <span>Video 2:</span>
+        <span id="video2-name">Not loaded</span>
+        <button class="upload-slot">Upload</button>
+        <button class="link-slot">Link</button>
+      </div>
+    </div>
+  </div> -->
 
   <script>
     var vid1 = document.getElementById("vid1");
@@ -397,10 +436,10 @@
         var text = formatDanmakuText(danmakuInput.value); // Formatting danmaku text
         var camera = document.getElementById("camera"); // Get the a-camera element
         var position = getWorldPosition(camera);
-        const currentVid = currentVideoIndex === 1 ? vid1 : vid2;  
-        addDanmaku(text, position, currentVid.currentTime);  
+        const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
+        addDanmaku(text, position, currentVid.currentTime);
         danmakuInput.value = "";
-        // Sending a popup to a WebSocket server
+        // Sending a danmaku to a WebSocket server
         ws.send(
           JSON.stringify({
             type: "new_danmaku",
@@ -436,19 +475,28 @@
 
     // Switching video play
     function switchVideo() {
-      const currentTime =
-        currentVideoIndex === 1 ? vid1.currentTime : vid2.currentTime;
+      const currentTime = currentVideoIndex === 1 ? vid1.currentTime : vid2.currentTime;
+      const targetVid = currentVideoIndex === 1 ? vid2 : vid1;
+
+      if (!targetVid.src) {
+        alert("Please upload or input link for the second video first!");
+        return;
+      }
 
       if (currentVideoIndex === 1) {
         vid1.pause();
         vid2.currentTime = currentTime;
         currentVideoIndex = 2;
         vid2.play();
+        videoSphere1.setAttribute('visible', 'false');
+        videoSphere2.setAttribute('visible', 'true');
       } else {
         vid2.pause();
         vid1.currentTime = currentTime;
         currentVideoIndex = 1;
         vid1.play();
+        videoSphere2.setAttribute('visible', 'false');
+        videoSphere1.setAttribute('visible', 'true');
       }
 
       // Update the danmaku position
@@ -569,11 +617,11 @@
 
     function startDanmakuMovement() {
       function move() {
-        const currentVid = currentVideoIndex === 1 ? vid1 : vid2;  
+        const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
         if (!currentVid.paused) {
           updateDanmakuPositions();
         }
-        requestAnimationFrame(move); // Loop call to make popups move during playback
+        requestAnimationFrame(move); // Loop call to make danmaku move during playback
       }
       move(); // Initiate danmaku movement
     }
@@ -599,7 +647,7 @@
         var transcript = formatDanmakuText(event.results[0][0].transcript); // Formatting Speech Recognition Text
         var camera = document.getElementById("camera");
         var position = getWorldPosition(camera);
-        const currentVid = currentVideoIndex === 1 ? vid1 : vid2; 
+        const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
         addDanmaku(transcript, position, currentVid.currentTime);
         ws.send(
           JSON.stringify({
