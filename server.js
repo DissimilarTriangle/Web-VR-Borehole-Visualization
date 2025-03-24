@@ -23,7 +23,7 @@ function getNextFilename() {
   return `danmaku_${fileCounter++}.json`;
 }
 
-// Load pop-up library
+// Load danmaku library
 function loadDanmakuLibrary(filename) {
   const filepath = path.join(__dirname, filename);
   if (fs.existsSync(filepath)) {
@@ -32,7 +32,7 @@ function loadDanmakuLibrary(filename) {
   return [];
 }
 
-// Save pop-up library
+// Save danmaku library
 function saveDanmakuLibrary(filename, library) {
   const filepath = path.join(__dirname, filename);
   fs.writeFileSync(filepath, JSON.stringify(library, null, 2), "utf-8");
@@ -60,7 +60,7 @@ wss.on("connection", (ws) => {
       }
 
       const library = loadDanmakuLibrary(currentLibraryFile);
-      // Send existing pop-ups to the client
+      // Send existing danmaku to the client
       ws.send(JSON.stringify({ type: "existing_danmaku", data: library }));
     } else if (parsedMessage.type === "new_danmaku") {
       const danmakuMessage = {
@@ -74,7 +74,7 @@ wss.on("connection", (ws) => {
         library.push(danmakuMessage);
         saveDanmakuLibrary(currentLibraryFile, library);
 
-        // Broadcast pop-up messages to all clients
+        // Broadcast danmaku messages to all clients
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(
