@@ -32,6 +32,7 @@
       border: none;
     }
 
+    /* Top */
     #upload-button {
       top: 10px;
       left: 10px;
@@ -53,8 +54,19 @@
 
     #exit-button {
       display: none;
-      top: 1em;
-      left: 1em;
+      top: 3.5em;
+      left: 10px;
+    }
+
+    #link-input {
+      position: fixed;
+      top: calc(50% + 2em);
+      left: calc(50% - 10em);
+      width: 20em;
+      font-size: 1rem;
+      padding: 0.5em;
+      z-index: 10;
+      display: none;
     }
 
     #link-confirm {
@@ -79,6 +91,7 @@
       right: 10px;
     }
 
+    /* Bottom */
     #rewind-button {
       bottom: 1em;
       left: calc(1em);
@@ -102,11 +115,15 @@
 
     #video-controls {
       position: fixed;
-      bottom: 1em;
+      bottom: 50px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
       width: 60%;
+    }
+
+    #video-controls input[type="range"] {
+      width: 100%;
     }
 
     #danmaku-input {
@@ -122,17 +139,6 @@
     #mic-button {
       bottom: 1em;
       right: calc(6em);
-    }
-
-    #link-input {
-      position: fixed;
-      top: calc(50% + 2em);
-      left: calc(50% - 10em);
-      width: 20em;
-      font-size: 1rem;
-      padding: 0.5em;
-      z-index: 10;
-      display: none;
     }
 
     #danmaku-input {
@@ -155,7 +161,6 @@
       z-index: 10;
     }
 
-
     .center-dot {
       position: fixed;
       top: 50%;
@@ -167,31 +172,18 @@
       border-radius: 50%;
       z-index: 10;
     }
-
-    #video-controls {
-      position: fixed;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      width: 60%;
-    }
-
-    #video-controls input[type="range"] {
-      width: 100%;
-    }
   </style>
 </head>
 
 <body>
-  <button id="play-button">▶</button>
-  <button id="upload-button">↑</button>
+  <button id="play-button">▶️</button>
+  <button id="upload-button">⏫</button>
   <button id="link-button">🔗</button>
   <button id="exit-button">✖</button>
   <button id="link-confirm">✔</button>
   <button id="mic-button">🎤</button>
   <button id="rewind-button">⏪</button>
-  <button id="pause-button">⏸</button>
+  <button id="pause-button">⏸️</button>
   <button id="forward-button">⏩</button>
   <button id="print-button">🖨</button>
   <button id="switch-video-button">🔄</button>
@@ -208,65 +200,45 @@
 
   <a-scene id="vr-scene" vr-mode-ui="enabled: true">
     <a-assets>
-      <video id="vid1" playsinline crossorigin="anonymous" autoplay="true" loop="true" style="display: none"></video>
-      <video id="vid2" playsinline crossorigin="anonymous" autoplay="true" loop="true" style="display: none"></video>
+      <video id="vid1" playsinline crossorigin="anonymous" loop="true" style="display: none"></video>
+      <video id="vid2" playsinline crossorigin="anonymous" loop="true" style="display: none"></video>
     </a-assets>
 
-    <a-entity id="video-sphere1" geometry="primitive: sphere; radius: 3000; segmentsWidth: 64; segmentsHeight: 64;"
+    <a-entity id="video-sphere" geometry="primitive: sphere; radius: 3000; segmentsWidth: 64; segmentsHeight: 64;"
       material="shader: flat; src: #vid1;" scale="-1 1 1" visible="true"></a-entity>
-    <a-entity id="video-sphere2" geometry="primitive: sphere; radius: 3000; segmentsWidth: 64; segmentsHeight: 64;"
-      material="shader: flat; src: #vid2;" scale="-1 1 1" visible="false"></a-entity>
 
     <a-entity id="camera" camera look-controls position="0 1.6 0">
       <a-cursor fuse="true" fuse-timeout="2000"></a-cursor>
     </a-entity>
   </a-scene>
 
-  <!-- <div id="video-list-panel" style="display: none;">
-    <div class="panel-header">
-      <h3>Video List</h3>
-      <button id="close-panel">✖</button>
-    </div>
-    <div class="video-slots">
-      <div class="video-slot">
-        <span>Video 1:</span>
-        <span id="video1-name">Not loaded</span>
-        <button class="upload-slot">Upload</button>
-        <button class="link-slot">Link</button>
-      </div>
-      <div class="video-slot">
-        <span>Video 2:</span>
-        <span id="video2-name">Not loaded</span>
-        <button class="upload-slot">Upload</button>
-        <button class="link-slot">Link</button>
-      </div>
-    </div>
-  </div> -->
-
   <script>
     var vid1 = document.getElementById("vid1");
     var vid2 = document.getElementById("vid2");
     var currentVideoIndex = 1;
-    var videoSphere1 = document.getElementById("video-sphere1");
-    var videoSphere2 = document.getElementById("video-sphere2");
+    const videos = {
+      vid1: document.getElementById('vid1'),
+      vid2: document.getElementById('vid2')
+    };
+    const videoSphere = document.getElementById('video-sphere');
 
-    var playButton = document.getElementById("play-button");
     var uploadButton = document.getElementById("upload-button");
-    var linkButton = document.getElementById("link-button");
-
-    var exitButton = document.getElementById("exit-button");
     var uploadInput = document.getElementById("upload-input");
+    var linkButton = document.getElementById("link-button");
     var linkInput = document.getElementById("link-input");
     var linkConfirm = document.getElementById("link-confirm");
-    var micButton = document.getElementById("mic-button");
-    var danmakuInput = document.getElementById("danmaku-input");
-    var rewindButton = document.getElementById("rewind-button");
-    var pauseButton = document.getElementById("pause-button");
-    var forwardButton = document.getElementById("forward-button");
-    var printButton = document.getElementById("print-button");
     var switchVideoButton = document.getElementById("switch-video-button");
+    var exitButton = document.getElementById("exit-button");
+    var printButton = document.getElementById("print-button");
 
+    var playButton = document.getElementById("play-button");
+    var pauseButton = document.getElementById("pause-button");
+    var rewindButton = document.getElementById("rewind-button");
+    var forwardButton = document.getElementById("forward-button");
     var timeline = document.getElementById("timeline");
+    var danmakuInput = document.getElementById("danmaku-input");
+    var micButton = document.getElementById("mic-button");
+
     var scene = document.getElementById("vr-scene");
     var currentVideoLink = "";
     var currentInput = "";
@@ -329,89 +301,54 @@
         alert("Please upload the video or a link to the video first!");
         return;
       }
-      this.style.display = "none";
-      uploadButton.style.display = "none";
-      linkButton.style.display = "none";
-      linkInput.style.display = "none";
-      linkConfirm.style.display = "none";
+      this.style.display = "none"; pauseButton.style.display = "block";
+
       exitButton.style.display = "block";
-      danmakuInput.style.display = "block";
-      micButton.style.display = "block";
-      rewindButton.style.display = "block";
-      pauseButton.style.display = "block";
-      forwardButton.style.display = "block";
-      printButton.style.display = "block";
-      switchVideoButton.style.display = "block";
-      currentVid.play(); // Video default playback
+
+      currentVid.play();
       startDanmakuMovement(); // Starting danmaku movement
     },
       false
     );
 
-    uploadButton.addEventListener(
-      "click",
-      function (e) {
-        uploadInput.click();
-      },
+    uploadButton.addEventListener("click", function (e) {
+      uploadInput.click();
+    },
       false
     );
 
-    uploadInput.addEventListener(
-      "change",
-      function (e) {
-        var file = e.target.files[0];
-        var url = URL.createObjectURL(file);
-        if (currentVideoIndex === 1) {
-          vid1.src = url;
-          vid1.load();
-        } else {
-          vid2.src = url;
-          vid2.load();
-        }
-        currentVideoLink = url;
-        playButton.style.display = "block";
-        ws.send(
-          JSON.stringify({
-            type: "new_video",
-            videoLink: url,
-            videoIndex: currentVideoIndex,
-          })
-        );
-      },
-      false
-    );
+    uploadInput.addEventListener("change", function (e) {
+      var file = e.target.files[0];
+      var url = URL.createObjectURL(file);
 
-    linkButton.addEventListener(
-      "click",
-      function (e) {
-        linkInput.style.display = "block";
-        linkConfirm.style.display = "block";
-        linkInput.focus();
-      },
+      currentVideoLink = url;
+      playButton.style.display = 'block';
+
+      // Load the video  
+      handleVideoLoad(`vid${currentVideoIndex}`, url);
+
+      //  Send the video link to the WebSocket server
+      ws.send(JSON.stringify({
+        type: 'new_video',
+        videoLink: url,
+        videoIndex: currentVideoIndex
+      }));
+    }, false);
+
+    linkButton.addEventListener("click", function (e) {
+      linkInput.style.display = "block";
+      linkConfirm.style.display = "block";
+      linkInput.focus();
+    },
       false
     );
 
     linkInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        var url = linkInput.value;
-        if (currentVideoIndex === 1) {
-          vid1.src = url;
-          vid1.load();
-        } else {
-          vid2.src = url;
-          vid2.load();
-        }
-        currentVideoLink = url;
-        playButton.style.display = "block";
-        linkInput.style.display = "none";
-        linkConfirm.style.display = "none";
-        ws.send(JSON.stringify({
-          type: "new_video",
-          videoLink: url,
-          videoIndex: currentVideoIndex
-        }));
+      if (e.key === 'Enter') {
+        const url = linkInput.value;
+        handleVideoLoad(`vid${currentVideoIndex}`, url);
       }
-    }, false);
+    });
 
     linkConfirm.addEventListener(
       "click",
@@ -472,44 +409,139 @@
       linkButton.style.display = "block";
       linkInput.style.display = "block";
       linkConfirm.style.display = "block";
-      danmakuInput.style.display = "none";
-      micButton.style.display = "none";
-      rewindButton.style.display = "none";
-      pauseButton.style.display = "none";
-      forwardButton.style.display = "none";
-      printButton.style.display = "none";
-      switchVideoButton.style.display = "none";
       this.style.display = "none";
     }, false);
 
+    // Video synchronization controller  
+    class VideoSyncController {
+      constructor(videos) {
+        this.videos = videos;
+        this.timeline = timeline;
+        this.currentVideoIndex = currentVideoIndex;
+        this.currentTime = 0;
+        this.isPaused = true;
+        this.setupSync();
+        this.setupTimelineControl();
+      }
+
+      setupSync() {
+        // sychronize play status
+        Object.values(this.videos).forEach(video => {
+          video.addEventListener('play', () => this.syncPlay());
+          video.addEventListener('pause', () => this.syncPause());
+          video.addEventListener('timeupdate', () => this.syncTime(video));
+
+          // synchronize video duration
+          video.addEventListener('loadedmetadata', () => {
+            console.log(`Video ${video.id} duration:`, video.duration);
+            // if current video loaded, update timeline
+            if (video === this.getCurrentVideo()) {
+              this.updateTimeline();
+            }
+          });
+        });
+      }
+
+      //Set timeline control
+      setupTimelineControl() {
+        // timeline control  
+        this.timeline.addEventListener("input", () => {
+          const time = (this.timeline.value * this.getCurrentVideo().duration) / 100;
+          this.currentTime = time;
+
+          // synchronize time for all videos
+          Object.values(this.videos).forEach(video => {
+            video.currentTime = time;
+          });
+
+          // if danmaku need update the position
+          if (typeof updateDanmakuPositions === 'function') {
+            updateDanmakuPositions();
+          }
+        });
+      }
+
+      getCurrentVideo() {
+        return this.videos[`vid${this.currentVideoIndex}`];
+      }
+
+      setCurrentVideoIndex(index) {
+        this.currentVideoIndex = index;
+        this.updateTimeline();
+      }
+
+      syncPlay() {
+        if (this.isPaused) {
+          Object.values(this.videos).forEach(v => v.play());
+          this.isPaused = false;
+        }
+      }
+
+      syncPause() {
+        if (!this.isPaused) {
+          Object.values(this.videos).forEach(v => v.pause());
+          this.isPaused = true;
+        }
+      }
+
+      syncTime(sourceVideo) {
+        // synchronize time
+        const newTime = sourceVideo.currentTime;
+        if (Math.abs(this.currentTime - newTime) > 0.1) {
+          this.currentTime = newTime;
+          Object.values(this.videos).forEach(v => {
+            if (v !== sourceVideo && Math.abs(v.currentTime - newTime) > 0.1) {
+              v.currentTime = newTime;
+            }
+          });
+
+          // update timeline
+          this.updateTimeline();
+        }
+      }
+
+      // Update the timeline based on the current video's time
+      updateTimeline() {
+        const currentVid = this.getCurrentVideo();
+
+        // Make sure the video is loaded and has a valid duration  
+        if (currentVid && currentVid.duration && !isNaN(currentVid.duration) && currentVid.duration > 0) {
+          // Calculate the percentage of progress (ensure that it is in the range 0-100)  
+          const percentage = Math.min(100, Math.max(0, (100 / currentVid.duration) * this.currentTime));
+
+          // update the timeline value
+          this.timeline.value = percentage;
+
+          // Logging to aid debugging  
+          console.log('Timeline update:', {
+            currentVideoIndex: this.currentVideoIndex,
+            currentTime: this.currentTime,
+            videoDuration: currentVid.duration,
+            percentage: percentage
+          });
+        }
+      }
+    }
+
     // Switching video play
     function switchVideo() {
-      const currentTime = currentVideoIndex === 1 ? vid1.currentTime : vid2.currentTime;
-      const targetVid = currentVideoIndex === 1 ? vid2 : vid1;
+      currentVideoIndex = currentVideoIndex === 1 ? 2 : 1;
+      const nextVideo = videos[`vid${currentVideoIndex}`];
 
-      if (!targetVid.src) {
-        alert("Please upload or input link for the second video first!");
-        return;
-      }
-
-      if (currentVideoIndex === 1) {
-        vid1.pause();
-        vid2.currentTime = currentTime;
-        currentVideoIndex = 2;
-        vid2.play();
-        videoSphere1.setAttribute('visible', 'false');
-        videoSphere2.setAttribute('visible', 'true');
-      } else {
-        vid2.pause();
-        vid1.currentTime = currentTime;
-        currentVideoIndex = 1;
-        vid1.play();
-        videoSphere2.setAttribute('visible', 'false');
-        videoSphere1.setAttribute('visible', 'true');
-      }
+      // Switch the video source  
+      videoSphere.setAttribute('material', 'src', `#vid${currentVideoIndex}`);
 
       // Update the danmaku position
       updateDanmakuPositions();
+    }
+
+    // Video synchronization controller instance
+    const syncController = new VideoSyncController(videos);
+
+    // video load event
+    function handleVideoLoad(videoId, url) {
+      videos[videoId].src = url;
+      videos[videoId].load();
     }
 
     // Handling touch screen events
@@ -584,13 +616,27 @@
       return { x: position.x, y: position.y, z: position.z };
     }
 
+
     function addDanmaku(text, position, startTime) {
+      // add danmaku to the share list
       danmakuList.push({
         text: text,
         position: position,
         startTime: startTime,
-        shown: false,
+        shown: false
       });
+
+      // send danmaku to the WebSocket server
+      ws.send(JSON.stringify({
+        type: 'new_danmaku',
+        text: text,
+        position: position,
+        time: startTime,
+        videoLinks: {
+          vid1: videos.vid1.src,
+          vid2: videos.vid2.src
+        }
+      }));
     }
 
     function updateDanmakuPositions() {
@@ -685,24 +731,6 @@
       toggleMic();
     });
 
-    // Synchronisation of timeline controls with video
-    timeline.addEventListener("input", function () {
-      var currentVid = currentVideoIndex === 1 ? vid1 : vid2;
-      var time = (timeline.value * currentVid.duration) / 100;
-      currentVid.currentTime = time;
-      updateDanmakuPositions();
-    });
-
-    function updateTimeline() {
-      var currentVid = currentVideoIndex === 1 ? vid1 : vid2;
-      var value = (100 / currentVid.duration) * currentVid.currentTime;
-      timeline.value = value;
-    }
-
-    // Event listeners for video playback
-    vid1.addEventListener("timeupdate", updateTimeline);
-    vid2.addEventListener("timeupdate", updateTimeline);
-
     // Print danmaku message
     printButton.addEventListener("click", function () {
       var output = "Danmaku Information:\n\n";
@@ -740,6 +768,7 @@
     switchVideoButton.addEventListener("click", function () {
       switchVideo();
     });
+
   </script>
 </body>
 
