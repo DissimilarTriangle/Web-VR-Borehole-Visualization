@@ -88,10 +88,10 @@
 
     #video-label {
       position: fixed;
-      top: 20px;
+      top: 26px;
       left: calc(1% + 15em);
-      width: 3em;
-      height: 3em;
+      width: 3.5em;
+      height: 2em;
       background-color: #333;
       color: #fff;
       border-radius: 10%;
@@ -217,9 +217,9 @@
       #video-label {
         position: fixed;
         top: 13px;
-        left: calc(1% + 10em);
-        width: 2em;
-        height: 2em;
+        left: calc(1% + 9em);
+        width: 3.5em;
+        height: 1.5em;
         background-color: #333;
         color: #fff;
         border-radius: 10%;
@@ -727,13 +727,26 @@
 
       danmakuList.forEach(function (danmaku) {
         if (!danmaku.shown && currentTime >= danmaku.startTime) {
+          // creat the danmaku background 
+          var backgroundEntity = document.createElement('a-plane');
+          backgroundEntity.setAttribute('color', 'black');
+          backgroundEntity.setAttribute('opacity', 0.5);
+          backgroundEntity.setAttribute('width', 1.2);
+          backgroundEntity.setAttribute('height', 0.3);
+          backgroundEntity.setAttribute('position', danmaku.position);
+          backgroundEntity.setAttribute('look-at', '[camera]');
+          scene.appendChild(backgroundEntity);
+
+          danmaku.backgroundEntity = backgroundEntity;
+
+          // creat the danmaku text
           var danmakuEntity = document.createElement('a-entity');
           danmakuEntity.setAttribute('text', {
             value: danmaku.text,
             color: 'white',
             align: 'center',
             width: 1,
-            wrapCount: 20 // Adjust line feed width as needed  
+            wrapCount: 20
           });
           danmakuEntity.setAttribute('position', danmaku.position);
           danmakuEntity.setAttribute('look-at', '[camera]');
@@ -753,10 +766,21 @@
             z: danmaku.position.z
           };
 
+          // update danmaku position  
           danmaku.entity.setAttribute('position', newPosition);
+
+          // update background position
+          if (danmaku.backgroundEntity) {
+            danmaku.backgroundEntity.setAttribute('position', newPosition);
+            // damaku look at the camera  
+            danmaku.backgroundEntity.setAttribute('look-at', '[camera]');
+          }
         }
       });
-    }
+
+
+      
+    } 
 
     function startDanmakuMovement() {
       function move() {
