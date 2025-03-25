@@ -105,9 +105,123 @@
       border: 1px solid #666;
     }
 
+    #danmaku-list-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 350px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border-radius: 5px;
+      z-index: 100;
+      overflow: hidden;
+      max-height: 50vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #danmaku-list-header {
+      padding: 8px;
+      background-color: rgba(30, 30, 30, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    #danmaku-list-toggle {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #danmaku-list-content {
+      overflow-y: auto;
+      max-height: 300px;
+      display: none;
+    }
+
+    #danmaku-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #danmaku-table th,
+    #danmaku-table td {
+      padding: 6px;
+      text-align: left;
+      border-bottom: 1px solid #444;
+      font-size: 0.9rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #danmaku-table tr:nth-child(even) {
+      background-color: rgba(50, 50, 50, 0.5);
+    }
+
+    #danmaku-table tr:hover {
+      background-color: rgba(60, 60, 60, 0.8);
+      cursor: pointer;
+    }
+
+    #danmaku-table th:first-child,
+    #danmaku-table td:first-child {
+      width: 20%;
+      /* Time column */
+    }
+
+    #danmaku-table th:last-child,
+    #danmaku-table td:last-child {
+      width: 80%;
+      /* Text column */
+    }
+
+
+    #danmaku-action-popup {
+      position: absolute;
+      background-color: rgba(40, 40, 40, 0.9);
+      border-radius: 5px;
+      padding: 5px;
+      display: flex;
+      gap: 10px;
+      z-index: 101;
+    }
+
+    #danmaku-action-popup button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    #danmaku-delete {
+      background-color: #e74c3c;
+    }
+
+    #danmaku-jump {
+      background-color: #3498db;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
     #print-button {
       top: 10px;
-      right: calc(1% + 1em);
+      right: calc(30%);
     }
 
     /* Bottom */
@@ -149,7 +263,7 @@
       position: fixed;
       bottom: 1em;
       left: calc(50% - 10em);
-      width: 20em;
+      width: 80em;
       font-size: 1rem;
       padding: 0.5em;
       z-index: 10;
@@ -233,6 +347,17 @@
         border: 1px solid #666;
       }
 
+      #danmaku-list-container {
+        width: 230px;
+        max-height: 30vh;
+      }
+
+      #danmaku-table th,
+      #danmaku-table td {
+        padding: 4px;
+        font-size: 0.8rem;
+      }
+
       #link-input {
         position: fixed;
         top: calc(50% + 2em);
@@ -286,6 +411,33 @@
   <input type="text" id="danmaku-input" placeholder="Type in danmaku and enter" />
   <div id="danmaku-container"></div>
   <div class="center-dot"></div>
+
+  <div id="danmaku-list-container">
+    <div id="danmaku-list-header">
+      <span>Danmaku List</span>
+      <div class="header-actions">
+        <button id="danmaku-list-toggle">▼</button>
+      </div>
+    </div>
+    <div id="danmaku-list-content">
+      <table id="danmaku-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Text</th>
+          </tr>
+        </thead>
+        <tbody id="danmaku-table-body">
+          <!-- The danmaku table will dynamaically generated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="danmaku-action-popup" class="hidden">
+    <button id="danmaku-delete">✖</button>
+    <button id="danmaku-jump">🚀</button>
+  </div>
 
   <div id="video-controls">
     <input type="range" id="timeline" value="0" max="100" />
@@ -606,13 +758,6 @@
           // update the timeline value
           this.timeline.value = percentage;
 
-          // Logging to aid debugging  
-          console.log('Timeline update:', {
-            currentVideoIndex: this.currentVideoIndex,
-            currentTime: this.currentTime,
-            videoDuration: currentVid.duration,
-            percentage: percentage
-          });
         }
       }
     }
@@ -698,7 +843,6 @@
       return { x: position.x, y: position.y, z: position.z };
     }
 
-
     function addDanmaku(text, position, startTime) {
       // add danmaku to the share list
       danmakuList.push({
@@ -707,6 +851,11 @@
         startTime: startTime,
         shown: false
       });
+
+      // update the danmaku table if it is displayed
+      if (danmakuListContent.style.display === 'block') {
+        updateDanmakuTable();
+      }
 
       // send danmaku to the WebSocket server
       ws.send(JSON.stringify({
@@ -779,8 +928,8 @@
       });
 
 
-      
-    } 
+
+    }
 
     function startDanmakuMovement() {
       function move() {
@@ -888,6 +1037,118 @@
     videoLabel.addEventListener('blur', function () {
       if (this.textContent.trim() === '') {
         this.textContent = `vid${currentVideoIndex}`;
+      }
+    });
+
+    // Danmaku List functionality
+    const danmakuListContainer = document.getElementById('danmaku-list-container');
+    const danmakuListHeader = document.getElementById('danmaku-list-header');
+    const danmakuListToggle = document.getElementById('danmaku-list-toggle');
+    const danmakuListContent = document.getElementById('danmaku-list-content');
+    const danmakuTableBody = document.getElementById('danmaku-table-body');
+    const danmakuActionPopup = document.getElementById('danmaku-action-popup');
+    const danmakuDeleteBtn = document.getElementById('danmaku-delete');
+    const danmakuJumpBtn = document.getElementById('danmaku-jump');
+
+    let selectedDanmakuIndex = -1;
+
+    // switch the display of danmaku list 
+    danmakuListHeader.addEventListener('click', function (e) {
+      if (danmakuListContent.style.display === 'block') {
+        danmakuListContent.style.display = 'none';
+        danmakuListToggle.textContent = '▼';
+      } else {
+        danmakuListContent.style.display = 'block';
+        danmakuListToggle.textContent = '▲';
+        updateDanmakuTable(); // update the danmaku table 
+      }
+    });
+
+    // update the danmaku table
+    function updateDanmakuTable() {
+      danmakuTableBody.innerHTML = '';
+      danmakuList.forEach((danmaku, index) => {
+        const row = document.createElement('tr');
+        row.dataset.index = index;
+
+        // format the time
+        const timeFormatted = formatTime(danmaku.startTime);
+
+        row.innerHTML = `  
+      <td>${timeFormatted}</td>  
+      <td>${danmaku.text.replace(/\n/g, ' ')}</td>  
+    `;
+
+        row.addEventListener('click', function (e) {
+          selectedDanmakuIndex = parseInt(this.dataset.index);
+          showDanmakuActions(e.clientX, e.clientY);
+        });
+
+        danmakuTableBody.appendChild(row);
+      });
+    }
+
+    // format time to MM:SS 
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // show the danmaku actions popup
+    function showDanmakuActions(x, y) {
+      danmakuActionPopup.classList.remove('hidden');
+      danmakuActionPopup.style.left = `${x - 40}px`;
+      danmakuActionPopup.style.top = `${y}px`;
+
+      // close the popup when clicking outside
+      document.addEventListener('click', closeDanmakuActionsOnOutsideClick);
+    }
+
+    // close the danmaku actions popup  
+    function closeDanmakuActionsOnOutsideClick(e) {
+      if (!danmakuActionPopup.contains(e.target) && !e.target.closest('#danmaku-table tr')) {
+        danmakuActionPopup.classList.add('hidden');
+        document.removeEventListener('click', closeDanmakuActionsOnOutsideClick);
+      }
+    }
+
+    // delete the selected danmaku
+    danmakuDeleteBtn.addEventListener('click', function () {
+      if (selectedDanmakuIndex >= 0 && selectedDanmakuIndex < danmakuList.length) {
+        const danmaku = danmakuList[selectedDanmakuIndex];
+
+        // remove the danmaku entity from the scene
+        if (danmaku.entity) {
+          scene.removeChild(danmaku.entity);
+        }
+        if (danmaku.backgroundEntity) {
+          scene.removeChild(danmaku.backgroundEntity);
+        }
+
+        // remove the danmaku from the list 
+        danmakuList.splice(selectedDanmakuIndex, 1);
+        updateDanmakuTable();
+
+        // close the action popup
+        danmakuActionPopup.classList.add('hidden');
+      }
+    });
+
+    // jump to the selected danmaku
+    danmakuJumpBtn.addEventListener('click', function () {
+      if (selectedDanmakuIndex >= 0 && selectedDanmakuIndex < danmakuList.length) {
+        const danmaku = danmakuList[selectedDanmakuIndex];
+        const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
+
+        // jump to the danmaku time
+        currentVid.currentTime = danmaku.startTime;
+
+        // update the timeline
+        updateDanmakuPositions();
+
+        // close the action popup  
+        danmakuActionPopup.classList.add('hidden');
       }
     });
 
