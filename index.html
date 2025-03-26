@@ -307,7 +307,7 @@
     }
 
     @media screen and (max-width: 932px) {
-      /* Mobile Device e.g iPhone 14 */
+      /* Mobile Device Size e.g iPhone 14 */
       #upload-button,
       #link-button,
       #exit-button,
@@ -796,13 +796,9 @@
       setTimeout(() => {
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
         if (touchCount === 1) {
-          togglePlayPause();
+          // do nothing 
         } else if (touchCount === 2) {
-          currentVid.currentTime += 0.2; // Fast forward 0.2s
-        } else if (touchCount === 3) {
-          currentVid.currentTime -= 0.2; // Reverse 0.2s
-        } else if (touchCount === 4) {
-          toggleMic(); // Quadruple-tap to turn the microphone on or off
+          toggleMic(); // Double-tap to turn the microphone on or off
         }
         updateDanmakuPositions(); // Updating danmaku positions after fast-forwarding or rewinding
         touchCount = 0; // Reset Touch Count
