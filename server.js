@@ -12,10 +12,11 @@ const server = https.createServer({
 const wss = new WebSocket.Server({ server });
 
 // Mapping of stored video links and danmaku library files
-const videoLibraryMapping = {
-  video1: {},
-  video2: {},
-};
+const videoLibraryMapping = {};
+
+if (!videoLibraryMapping[`video${currentVideoIndex}`]) {
+  videoLibraryMapping[`video${currentVideoIndex}`] = {};
+}
 
 // Generate unique file names
 let fileCounter = 1;
@@ -50,6 +51,12 @@ wss.on("connection", (ws) => {
       currentVideoLink = parsedMessage.videoLink;
       currentVideoIndex = parsedMessage.videoIndex;
 
+      // Check if the video link is already stored
+      if (!videoLibraryMapping[`video${currentVideoIndex}`]) {
+        videoLibraryMapping[`video${currentVideoIndex}`] = {};
+      }
+
+      // Check if the video link has an associated danmaku library
       if (!videoLibraryMapping[`video${currentVideoIndex}`][currentVideoLink]) {
         currentLibraryFile = getNextFilename();
         videoLibraryMapping[`video${currentVideoIndex}`][currentVideoLink] =
@@ -67,6 +74,7 @@ wss.on("connection", (ws) => {
         text: parsedMessage.text,
         time: parsedMessage.time,
         position: parsedMessage.position,
+        videoLink: parsedMessage.videoLink,
       };
 
       if (currentLibraryFile) {
@@ -86,7 +94,12 @@ wss.on("connection", (ws) => {
     }
   });
 
-  ws.send(JSON.stringify({ text: "Welcome to the WebSocket server!" }));
+  ws.send(
+    JSON.stringify({
+      type: "welcome",
+      data: "Welcome to the WebSocket server!",
+    })
+  );
 });
 
 server.listen(8080, () => {

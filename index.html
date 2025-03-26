@@ -854,16 +854,15 @@
       }
 
       // send danmaku to the WebSocket server
-      ws.send(JSON.stringify({
-        type: 'new_danmaku',
-        text: text,
-        position: position,
-        time: startTime,
-        videoLinks: {
-          vid1: videos.vid1.src,
-          vid2: videos.vid2.src
-        }
-      }));
+      ws.send(
+        JSON.stringify({
+          type: "new_danmaku",
+          text: text,
+          position: position,
+          videoLink: currentVideoLink,
+          time: currentVid.currentTime,
+        })
+      );;
     }
 
     function updateDanmakuPositions() {
@@ -964,7 +963,7 @@
         ws.send(
           JSON.stringify({
             type: "new_danmaku",
-            text: transcript,
+            text: text,
             position: position,
             videoLink: currentVideoLink,
             time: currentVid.currentTime,
