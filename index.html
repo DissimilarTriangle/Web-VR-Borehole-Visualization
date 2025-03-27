@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>VR Video Player with Danmaku</title>
+  <title>VR Video Player with Annotation</title>
   <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script>
   <style>
@@ -328,6 +328,11 @@
         font-size: 1rem;
       }
 
+      #print-button {
+        top: 10px;
+        right: calc(40%);
+      }
+
       #video-label {
         position: fixed;
         top: 13px;
@@ -408,13 +413,13 @@
   <button id="video-list-button">📋</button>
   <input type="file" id="upload-input" accept="video/*" />
   <input type="text" id="link-input" placeholder="Type in video link and enter" />
-  <input type="text" id="danmaku-input" placeholder="Type in danmaku and enter" />
+  <input type="text" id="danmaku-input" placeholder="Type in annotation and enter" />
   <div id="danmaku-container"></div>
   <div class="center-dot"></div>
 
   <div id="danmaku-list-container">
     <div id="danmaku-list-header">
-      <span>Danmaku List</span>
+      <span>Annotation List</span>
       <div class="header-actions">
         <button id="danmaku-list-toggle">▼</button>
       </div>
@@ -797,10 +802,7 @@
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
         if (touchCount === 1) {
           // do nothing 
-        } else if (touchCount === 2) {
-          toggleMic(); // Double-tap to turn the microphone on or off
         }
-        updateDanmakuPositions(); // Updating danmaku positions after fast-forwarding or rewinding
         touchCount = 0; // Reset Touch Count
       }, 1000); // Delayed processing of combos to avoid false triggers
     }

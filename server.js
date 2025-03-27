@@ -14,10 +14,6 @@ const wss = new WebSocket.Server({ server });
 // Mapping of stored video links and danmaku library files
 const videoLibraryMapping = {};
 
-if (!videoLibraryMapping[`video${currentVideoIndex}`]) {
-  videoLibraryMapping[`video${currentVideoIndex}`] = {};
-}
-
 // Generate unique file names
 let fileCounter = 1;
 function getNextFilename() {
