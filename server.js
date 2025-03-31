@@ -99,5 +99,5 @@ wss.on("connection", (ws) => {
 });
 
 server.listen(8080, () => {
-  console.log("WebSocket server is running on wss://vrannotation.uk:8080");
+  console.log("WebSocket server is running on wss://vrdanmaku.uk:8080");
 });
