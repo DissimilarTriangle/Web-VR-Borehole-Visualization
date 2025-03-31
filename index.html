@@ -105,7 +105,7 @@
       border: 1px solid #666;
     }
 
-    #danmaku-list-container {
+    #annotation-list-container {
       position: fixed;
       top: 10px;
       right: 10px;
@@ -120,7 +120,7 @@
       flex-direction: column;
     }
 
-    #danmaku-list-header {
+    #annotation-list-header {
       padding: 8px;
       background-color: rgba(30, 30, 30, 0.9);
       display: flex;
@@ -134,7 +134,7 @@
       gap: 10px;
     }
 
-    #danmaku-list-toggle {
+    #annotation-list-toggle {
       background: none;
       border: none;
       color: white;
@@ -142,19 +142,19 @@
       cursor: pointer;
     }
 
-    #danmaku-list-content {
+    #annotation-list-content {
       overflow-y: auto;
       max-height: 300px;
       display: none;
     }
 
-    #danmaku-table {
+    #annotation-table {
       width: 100%;
       border-collapse: collapse;
     }
 
-    #danmaku-table th,
-    #danmaku-table td {
+    #annotation-table th,
+    #annotation-table td {
       padding: 6px;
       text-align: left;
       border-bottom: 1px solid #444;
@@ -164,29 +164,29 @@
       white-space: nowrap;
     }
 
-    #danmaku-table tr:nth-child(even) {
+    #annotation-table tr:nth-child(even) {
       background-color: rgba(50, 50, 50, 0.5);
     }
 
-    #danmaku-table tr:hover {
+    #annotation-table tr:hover {
       background-color: rgba(60, 60, 60, 0.8);
       cursor: pointer;
     }
 
-    #danmaku-table th:first-child,
-    #danmaku-table td:first-child {
+    #annotation-table th:first-child,
+    #annotation-table td:first-child {
       width: 20%;
       /* Time column */
     }
 
-    #danmaku-table th:last-child,
-    #danmaku-table td:last-child {
+    #annotation-table th:last-child,
+    #annotation-table td:last-child {
       width: 80%;
       /* Text column */
     }
 
 
-    #danmaku-action-popup {
+    #annotation-action-popup {
       position: absolute;
       background-color: rgba(40, 40, 40, 0.9);
       border-radius: 5px;
@@ -196,7 +196,7 @@
       z-index: 101;
     }
 
-    #danmaku-action-popup button {
+    #annotation-action-popup button {
       background: none;
       border: none;
       color: white;
@@ -207,11 +207,11 @@
       cursor: pointer;
     }
 
-    #danmaku-delete {
+    #annotation-delete {
       background-color: #e74c3c;
     }
 
-    #danmaku-jump {
+    #annotation-jump {
       background-color: #3498db;
     }
 
@@ -259,7 +259,7 @@
       width: 100%;
     }
 
-    #danmaku-input {
+    #annotation-input {
       position: fixed;
       bottom: 1em;
       left: calc(50% - 10em);
@@ -274,7 +274,7 @@
       right: calc(6em);
     }
 
-    #danmaku-input {
+    #annotation-input {
       position: fixed;
       bottom: 1em;
       left: calc(50% - 10em);
@@ -284,7 +284,7 @@
       z-index: 10;
     }
 
-    #danmaku-container {
+    #annotation-container {
       position: fixed;
       top: 0;
       left: 0;
@@ -352,13 +352,13 @@
         border: 1px solid #666;
       }
 
-      #danmaku-list-container {
+      #annotation-list-container {
         width: 230px;
         max-height: 30vh;
       }
 
-      #danmaku-table th,
-      #danmaku-table td {
+      #annotation-table th,
+      #annotation-table td {
         padding: 4px;
         font-size: 0.8rem;
       }
@@ -383,7 +383,7 @@
         width: 60%;
       }
 
-      #danmaku-input {
+      #annotation-input {
         position: fixed;
         bottom: 0.5em;
         left: calc(50% - 9em);
@@ -413,35 +413,35 @@
   <button id="video-list-button">📋</button>
   <input type="file" id="upload-input" accept="video/*" />
   <input type="text" id="link-input" placeholder="Type in video link and enter" />
-  <input type="text" id="danmaku-input" placeholder="Type in annotation and enter" />
-  <div id="danmaku-container"></div>
+  <input type="text" id="annotation-input" placeholder="Type in annotation and enter" />
+  <div id="annotation-container"></div>
   <div class="center-dot"></div>
 
-  <div id="danmaku-list-container">
-    <div id="danmaku-list-header">
+  <div id="annotation-list-container">
+    <div id="annotation-list-header">
       <span>Annotation List</span>
       <div class="header-actions">
-        <button id="danmaku-list-toggle">▼</button>
+        <button id="annotation-list-toggle">▼</button>
       </div>
     </div>
-    <div id="danmaku-list-content">
-      <table id="danmaku-table">
+    <div id="annotation-list-content">
+      <table id="annotation-table">
         <thead>
           <tr>
             <th>Time</th>
             <th>Text</th>
           </tr>
         </thead>
-        <tbody id="danmaku-table-body">
-          <!-- The danmaku table will dynamaically generated here -->
+        <tbody id="annotation-table-body">
+          <!-- The annotation table will dynamaically generated here -->
         </tbody>
       </table>
     </div>
   </div>
 
-  <div id="danmaku-action-popup" class="hidden">
-    <button id="danmaku-delete">✖</button>
-    <button id="danmaku-jump">🚀</button>
+  <div id="annotation-action-popup" class="hidden">
+    <button id="annotation-delete">✖</button>
+    <button id="annotation-jump">🚀</button>
   </div>
 
   <div id="video-controls">
@@ -487,13 +487,13 @@
     var rewindButton = document.getElementById("rewind-button");
     var forwardButton = document.getElementById("forward-button");
     var timeline = document.getElementById("timeline");
-    var danmakuInput = document.getElementById("danmaku-input");
+    var annotationInput = document.getElementById("annotation-input");
     var micButton = document.getElementById("mic-button");
 
     var scene = document.getElementById("vr-scene");
     var currentVideoLink = "";
     var currentInput = "";
-    var danmakuList = [];
+    var annotationList = [];
     var lastTouchTime = 0;
     var touchCount = 0;
     var recognitionActive = false;
@@ -501,7 +501,7 @@
     // Set the speed at which the video moves (assuming units of metres per second)
     var videoSpeed = 1.0; // Adjusts to the actual movement speed of the video
 
-    // Connecting to a WebSocket Server (Popup Server)
+    // Connecting to a WebSocket Server
     var ws = new WebSocket("wss://vrdanmaku.uk:8080");
 
     ws.onopen = function () {
@@ -511,16 +511,16 @@
     ws.onmessage = function (event) {
       try {
         var data = JSON.parse(event.data);
-        if (data.type === "existing_danmaku") {
-          data.data.forEach((danmakuMessage) => {
-            addDanmaku(
-              danmakuMessage.text,
-              danmakuMessage.position,
-              danmakuMessage.time
+        if (data.type === "existing_annotation") {
+          data.data.forEach((annotationMessage) => {
+            addAnnotation(
+              annotationMessage.text,
+              annotationMessage.position,
+              annotationMessage.time
             );
           });
-        } else if (data.type === "new_danmaku") {
-          addDanmaku(data.data.text, data.data.position, data.data.time);
+        } else if (data.type === "new_annotation") {
+          addAnnotation(data.data.text, data.data.position, data.data.time);
         }
       } catch (e) {
         console.error("Error parsing message", e);
@@ -557,7 +557,7 @@
       exitButton.style.display = "block";
 
       currentVid.play();
-      startDanmakuMovement(); // Starting danmaku movement
+      startAnnotationMovement(); // Starting annotation movement
     },
       false
     );
@@ -628,18 +628,18 @@
       false
     );
 
-    danmakuInput.addEventListener("keypress", function (e) {
+    annotationInput.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
-        var text = formatDanmakuText(danmakuInput.value); // Formatting danmaku text
+        var text = formatAnnotationText(annotationInput.value); // Formatting annotation text
         var camera = document.getElementById("camera"); // Get the a-camera element
         var position = getWorldPosition(camera);
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
-        addDanmaku(text, position, currentVid.currentTime);
-        danmakuInput.value = "";
-        // Sending a danmaku to a WebSocket server
+        addAnnotation(text, position, currentVid.currentTime);
+        annotationInput.value = "";
+        // Sending a annotation to a WebSocket server
         ws.send(
           JSON.stringify({
-            type: "new_danmaku",
+            type: "new_annotation",
             text: text,
             position: position,
             videoLink: currentVideoLink,
@@ -705,9 +705,9 @@
             video.currentTime = time;
           });
 
-          // if danmaku need update the position
-          if (typeof updateDanmakuPositions === 'function') {
-            updateDanmakuPositions();
+          // if annotation need update the position
+          if (typeof updateAnnotationPositions === 'function') {
+            updateAnnotationPositions();
           }
         });
       }
@@ -814,7 +814,7 @@
       } else {
         currentVid.pause();
       }
-      updateDanmakuPositions(); // Updates danmaku positions during pause or playback
+      updateAnnotationPositions(); // Updates annotation positions during pause or playback
     }
 
     function toggleMic() {
@@ -841,24 +841,24 @@
       return { x: position.x, y: position.y, z: position.z };
     }
 
-    function addDanmaku(text, position, startTime) {
-      // add danmaku to the share list
-      danmakuList.push({
+    function addAnnotation(text, position, startTime) {
+      // add annotation to the share list
+      annotationList.push({
         text: text,
         position: position,
         startTime: startTime,
         shown: false
       });
 
-      // update the danmaku table if it is displayed
-      if (danmakuListContent.style.display === 'block') {
-        updateDanmakuTable();
+      // update the annotation table if it is displayed
+      if (annotationListContent.style.display === 'block') {
+        updateAnnotationTable();
       }
 
-      // send danmaku to the WebSocket server
+      // send annotation to the WebSocket server
       ws.send(
         JSON.stringify({
-          type: "new_danmaku",
+          type: "new_annotation",
           text: text,
           position: position,
           videoLink: currentVideoLink,
@@ -867,59 +867,59 @@
       );;
     }
 
-    function updateDanmakuPositions() {
+    function updateAnnotationPositions() {
       var currentTime =
         currentVideoIndex === 1 ? vid1.currentTime : vid2.currentTime;
 
-      danmakuList.forEach(function (danmaku) {
-        if (!danmaku.shown && currentTime >= danmaku.startTime) {
-          // creat the danmaku background 
+      annotationList.forEach(function (annotation) {
+        if (!annotation.shown && currentTime >= annotation.startTime) {
+          // creat the annotation background 
           var backgroundEntity = document.createElement('a-plane');
           backgroundEntity.setAttribute('color', 'black');
           backgroundEntity.setAttribute('opacity', 0.5);
           backgroundEntity.setAttribute('width', 1.2);
           backgroundEntity.setAttribute('height', 0.3);
-          backgroundEntity.setAttribute('position', danmaku.position);
+          backgroundEntity.setAttribute('position', annotation.position);
           backgroundEntity.setAttribute('look-at', '[camera]');
           scene.appendChild(backgroundEntity);
 
-          danmaku.backgroundEntity = backgroundEntity;
+          annotation.backgroundEntity = backgroundEntity;
 
-          // creat the danmaku text
-          var danmakuEntity = document.createElement('a-entity');
-          danmakuEntity.setAttribute('text', {
-            value: danmaku.text,
+          // creat the annotation text
+          var annotationEntity = document.createElement('a-entity');
+          annotationEntity.setAttribute('text', {
+            value: annotation.text,
             color: 'white',
             align: 'center',
             width: 1,
             wrapCount: 20
           });
-          danmakuEntity.setAttribute('position', danmaku.position);
-          danmakuEntity.setAttribute('look-at', '[camera]');
-          scene.appendChild(danmakuEntity);
+          annotationEntity.setAttribute('position', annotation.position);
+          annotationEntity.setAttribute('look-at', '[camera]');
+          scene.appendChild(annotationEntity);
 
-          danmaku.entity = danmakuEntity;
-          danmaku.shown = true;
+          annotation.entity = annotationEntity;
+          annotation.shown = true;
         }
 
-        if (danmaku.shown) {
-          var elapsedTime = currentTime - danmaku.startTime;
+        if (annotation.shown) {
+          var elapsedTime = currentTime - annotation.startTime;
           var distanceTraveled = elapsedTime * videoSpeed;
 
           var newPosition = {
-            x: danmaku.position.x + distanceTraveled,
-            y: danmaku.position.y,
-            z: danmaku.position.z
+            x: annotation.position.x + distanceTraveled,
+            y: annotation.position.y,
+            z: annotation.position.z
           };
 
-          // update danmaku position  
-          danmaku.entity.setAttribute('position', newPosition);
+          // update annotation position  
+          annotation.entity.setAttribute('position', newPosition);
 
           // update background position
-          if (danmaku.backgroundEntity) {
-            danmaku.backgroundEntity.setAttribute('position', newPosition);
+          if (annotation.backgroundEntity) {
+            annotation.backgroundEntity.setAttribute('position', newPosition);
             // damaku look at the camera  
-            danmaku.backgroundEntity.setAttribute('look-at', '[camera]');
+            annotation.backgroundEntity.setAttribute('look-at', '[camera]');
           }
         }
       });
@@ -928,19 +928,19 @@
 
     }
 
-    function startDanmakuMovement() {
+    function startAnnotationMovement() {
       function move() {
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
         if (!currentVid.paused) {
-          updateDanmakuPositions();
+          updateAnnotationPositions();
         }
-        requestAnimationFrame(move); // Loop call to make danmaku move during playback
+        requestAnimationFrame(move); // Loop call to make annotation move during playback
       }
-      move(); // Initiate danmaku movement
+      move(); // Initiate annotation movement
     }
 
-    // Format danmaku text with line breaks every three words
-    function formatDanmakuText(text) {
+    // Format annotation text with line breaks every three words
+    function formatAnnotationText(text) {
       var words = text.split(" ");
       for (var i = 3; i < words.length; i += 4) {
         words[i] = words[i] + "\n";
@@ -957,14 +957,14 @@
       recognition.lang = "en-US";
 
       recognition.onresult = function (event) {
-        var transcript = formatDanmakuText(event.results[0][0].transcript); // Formatting Speech Recognition Text
+        var transcript = formatAnnotationText(event.results[0][0].transcript); // Formatting Speech Recognition Text
         var camera = document.getElementById("camera");
         var position = getWorldPosition(camera);
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
-        addDanmaku(transcript, position, currentVid.currentTime);
+        addAnnotation(transcript, position, currentVid.currentTime);
         ws.send(
           JSON.stringify({
-            type: "new_danmaku",
+            type: "new_annotation",
             text: text,
             position: position,
             videoLink: currentVideoLink,
@@ -983,16 +983,16 @@
       toggleMic();
     });
 
-    // Print danmaku message
+    // Print annotation message
     printButton.addEventListener("click", function () {
-      var output = "Danmaku Information:\n\n";
-      danmakuList.forEach(function (danmaku) {
-        output += `Text: ${danmaku.text}, Position: (${danmaku.position.x}, ${danmaku.position.y}, ${danmaku.position.z}), Time: ${danmaku.startTime}s\n`;
+      var output = "Annotation Information:\n\n";
+      annotationList.forEach(function (annotation) {
+        output += `Text: ${annotation.text}, Position: (${annotation.position.x}, ${annotation.position.y}, ${annotation.position.z}), Time: ${annotation.startTime}s\n`;
       });
       var blob = new Blob([output], { type: "text/plain;charset=utf-8" });
       var link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "danmaku_info.txt";
+      link.download = "annotation_info.txt";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1002,7 +1002,7 @@
     rewindButton.addEventListener("click", function () {
       const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
       currentVid.currentTime -= 0.2;
-      updateDanmakuPositions();
+      updateAnnotationPositions();
     });
 
     pauseButton.addEventListener("click", function () {
@@ -1014,7 +1014,7 @@
     forwardButton.addEventListener("click", function () {
       const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
       currentVid.currentTime += 0.2;
-      updateDanmakuPositions();
+      updateAnnotationPositions();
     });
 
     switchVideoButton.addEventListener("click", function () {
@@ -1026,8 +1026,8 @@
       // Switch the video source  
       videoSphere.setAttribute('material', 'src', `#vid${currentVideoIndex}`);
 
-      // Update the danmaku position
-      updateDanmakuPositions();
+      // Update the annotation position
+      updateAnnotationPositions();
     });
 
     // Display video label
@@ -1037,51 +1037,51 @@
       }
     });
 
-    // Danmaku List functionality
-    const danmakuListContainer = document.getElementById('danmaku-list-container');
-    const danmakuListHeader = document.getElementById('danmaku-list-header');
-    const danmakuListToggle = document.getElementById('danmaku-list-toggle');
-    const danmakuListContent = document.getElementById('danmaku-list-content');
-    const danmakuTableBody = document.getElementById('danmaku-table-body');
-    const danmakuActionPopup = document.getElementById('danmaku-action-popup');
-    const danmakuDeleteBtn = document.getElementById('danmaku-delete');
-    const danmakuJumpBtn = document.getElementById('danmaku-jump');
+    // Annotation List functionality
+    const annotationListContainer = document.getElementById('annotation-list-container');
+    const annotationListHeader = document.getElementById('annotation-list-header');
+    const annotationListToggle = document.getElementById('annotation-list-toggle');
+    const annotationListContent = document.getElementById('annotation-list-content');
+    const annotationTableBody = document.getElementById('annotation-table-body');
+    const annotationActionPopup = document.getElementById('annotation-action-popup');
+    const annotationDeleteBtn = document.getElementById('annotation-delete');
+    const annotationJumpBtn = document.getElementById('annotation-jump');
 
-    let selectedDanmakuIndex = -1;
+    let selectedAnnotationIndex = -1;
 
-    // switch the display of danmaku list 
-    danmakuListHeader.addEventListener('click', function (e) {
-      if (danmakuListContent.style.display === 'block') {
-        danmakuListContent.style.display = 'none';
-        danmakuListToggle.textContent = '▼';
+    // switch the display of annotation list 
+    annotationListHeader.addEventListener('click', function (e) {
+      if (annotationListContent.style.display === 'block') {
+        annotationListContent.style.display = 'none';
+        annotationListToggle.textContent = '▼';
       } else {
-        danmakuListContent.style.display = 'block';
-        danmakuListToggle.textContent = '▲';
-        updateDanmakuTable(); // update the danmaku table 
+        annotationListContent.style.display = 'block';
+        annotationListToggle.textContent = '▲';
+        updateAnnotationTable(); // update the annotation table 
       }
     });
 
-    // update the danmaku table
-    function updateDanmakuTable() {
-      danmakuTableBody.innerHTML = '';
-      danmakuList.forEach((danmaku, index) => {
+    // update the annotation table
+    function updateAnnotationTable() {
+      annotationTableBody.innerHTML = '';
+      annotationList.forEach((annotation, index) => {
         const row = document.createElement('tr');
         row.dataset.index = index;
 
         // format the time
-        const timeFormatted = formatTime(danmaku.startTime);
+        const timeFormatted = formatTime(annotation.startTime);
 
         row.innerHTML = `  
       <td>${timeFormatted}</td>  
-      <td>${danmaku.text.replace(/\n/g, ' ')}</td>  
+      <td>${annotation.text.replace(/\n/g, ' ')}</td>  
     `;
 
         row.addEventListener('click', function (e) {
-          selectedDanmakuIndex = parseInt(this.dataset.index);
-          showDanmakuActions(e.clientX, e.clientY);
+          selectedAnnotationIndex = parseInt(this.dataset.index);
+          showAnnotationActions(e.clientX, e.clientY);
         });
 
-        danmakuTableBody.appendChild(row);
+        annotationTableBody.appendChild(row);
       });
     }
 
@@ -1092,60 +1092,60 @@
       return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
-    // show the danmaku actions popup
-    function showDanmakuActions(x, y) {
-      danmakuActionPopup.classList.remove('hidden');
-      danmakuActionPopup.style.left = `${x - 40}px`;
-      danmakuActionPopup.style.top = `${y}px`;
+    // show the annotation actions popup
+    function showAnnotationActions(x, y) {
+      annotationActionPopup.classList.remove('hidden');
+      annotationActionPopup.style.left = `${x - 40}px`;
+      annotationActionPopup.style.top = `${y}px`;
 
       // close the popup when clicking outside
-      document.addEventListener('click', closeDanmakuActionsOnOutsideClick);
+      document.addEventListener('click', closeAnnotationActionsOnOutsideClick);
     }
 
-    // close the danmaku actions popup  
-    function closeDanmakuActionsOnOutsideClick(e) {
-      if (!danmakuActionPopup.contains(e.target) && !e.target.closest('#danmaku-table tr')) {
-        danmakuActionPopup.classList.add('hidden');
-        document.removeEventListener('click', closeDanmakuActionsOnOutsideClick);
+    // close the annotation actions popup  
+    function closeAnnotationActionsOnOutsideClick(e) {
+      if (!annotationActionPopup.contains(e.target) && !e.target.closest('#annotation-table tr')) {
+        annotationActionPopup.classList.add('hidden');
+        document.removeEventListener('click', closeAnnotationActionsOnOutsideClick);
       }
     }
 
-    // delete the selected danmaku
-    danmakuDeleteBtn.addEventListener('click', function () {
-      if (selectedDanmakuIndex >= 0 && selectedDanmakuIndex < danmakuList.length) {
-        const danmaku = danmakuList[selectedDanmakuIndex];
+    // delete the selected annotation
+    annotationDeleteBtn.addEventListener('click', function () {
+      if (selectedAnnotationIndex >= 0 && selectedAnnotationIndex < annotationList.length) {
+        const annotation = annotationList[selectedAnnotationIndex];
 
-        // remove the danmaku entity from the scene
-        if (danmaku.entity) {
-          scene.removeChild(danmaku.entity);
+        // remove the annotation entity from the scene
+        if (annotation.entity) {
+          scene.removeChild(annotation.entity);
         }
-        if (danmaku.backgroundEntity) {
-          scene.removeChild(danmaku.backgroundEntity);
+        if (annotation.backgroundEntity) {
+          scene.removeChild(annotation.backgroundEntity);
         }
 
-        // remove the danmaku from the list 
-        danmakuList.splice(selectedDanmakuIndex, 1);
-        updateDanmakuTable();
+        // remove the annotation from the list 
+        annotationList.splice(selectedAnnotationIndex, 1);
+        updateAnnotationTable();
 
         // close the action popup
-        danmakuActionPopup.classList.add('hidden');
+        annotationActionPopup.classList.add('hidden');
       }
     });
 
-    // jump to the selected danmaku
-    danmakuJumpBtn.addEventListener('click', function () {
-      if (selectedDanmakuIndex >= 0 && selectedDanmakuIndex < danmakuList.length) {
-        const danmaku = danmakuList[selectedDanmakuIndex];
+    // jump to the selected annotation
+    annotationJumpBtn.addEventListener('click', function () {
+      if (selectedAnnotationIndex >= 0 && selectedAnnotationIndex < annotationList.length) {
+        const annotation = annotationList[selectedAnnotationIndex];
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
 
-        // jump to the danmaku time
-        currentVid.currentTime = danmaku.startTime;
+        // jump to the annotation time
+        currentVid.currentTime = annotation.startTime;
 
         // update the timeline
-        updateDanmakuPositions();
+        updateAnnotationPositions();
 
         // close the action popup  
-        danmakuActionPopup.classList.add('hidden');
+        annotationActionPopup.classList.add('hidden');
       }
     });
 

@@ -11,17 +11,17 @@ const server = https.createServer({
 
 const wss = new WebSocket.Server({ server });
 
-// Mapping of stored video links and danmaku library files
+// Mapping of stored video links and annotation library files
 const videoLibraryMapping = {};
 
 // Generate unique file names
 let fileCounter = 1;
 function getNextFilename() {
-  return `danmaku_${fileCounter++}.json`;
+  return `annotation_${fileCounter++}.json`;
 }
 
-// Load danmaku library
-function loadDanmakuLibrary(filename) {
+// Load annotation library
+function loadAnnotationLibrary(filename) {
   const filepath = path.join(__dirname, filename);
   if (fs.existsSync(filepath)) {
     return JSON.parse(fs.readFileSync(filepath, "utf-8"));
@@ -29,8 +29,8 @@ function loadDanmakuLibrary(filename) {
   return [];
 }
 
-// Save danmaku library
-function saveDanmakuLibrary(filename, library) {
+// Save annotation library
+function saveAnnotationLibrary(filename, library) {
   const filepath = path.join(__dirname, filename);
   fs.writeFileSync(filepath, JSON.stringify(library, null, 2), "utf-8");
 }
@@ -52,7 +52,7 @@ wss.on("connection", (ws) => {
         videoLibraryMapping[`video${currentVideoIndex}`] = {};
       }
 
-      // Check if the video link has an associated danmaku library
+      // Check if the video link has an associated annotation library
       if (!videoLibraryMapping[`video${currentVideoIndex}`][currentVideoLink]) {
         currentLibraryFile = getNextFilename();
         videoLibraryMapping[`video${currentVideoIndex}`][currentVideoLink] =
@@ -62,11 +62,11 @@ wss.on("connection", (ws) => {
           videoLibraryMapping[`video${currentVideoIndex}`][currentVideoLink];
       }
 
-      const library = loadDanmakuLibrary(currentLibraryFile);
-      // Send existing danmaku to the client
-      ws.send(JSON.stringify({ type: "existing_danmaku", data: library }));
-    } else if (parsedMessage.type === "new_danmaku") {
-      const danmakuMessage = {
+      const library = loadAnnotationLibrary(currentLibraryFile);
+      // Send existing annotation to the client
+      ws.send(JSON.stringify({ type: "existing_annotation", data: library }));
+    } else if (parsedMessage.type === "new_annotation") {
+      const annotationMessage = {
         text: parsedMessage.text,
         time: parsedMessage.time,
         position: parsedMessage.position,
@@ -74,15 +74,15 @@ wss.on("connection", (ws) => {
       };
 
       if (currentLibraryFile) {
-        const library = loadDanmakuLibrary(currentLibraryFile);
-        library.push(danmakuMessage);
-        saveDanmakuLibrary(currentLibraryFile, library);
+        const library = loadAnnotationLibrary(currentLibraryFile);
+        library.push(annotationMessage);
+        saveAnnotationLibrary(currentLibraryFile, library);
 
-        // Broadcast danmaku messages to all clients
+        // Broadcast annotation messages to all clients
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(
-              JSON.stringify({ type: "new_danmaku", data: danmakuMessage })
+              JSON.stringify({ type: "new_annotation", data: annotationMessage })
             );
           }
         });
@@ -99,5 +99,5 @@ wss.on("connection", (ws) => {
 });
 
 server.listen(8080, () => {
-  console.log("WebSocket server is running on wss://vrdanmaku.uk:8080");
+  console.log("WebSocket server is running on wss://vrannotation.uk:8080");
 });
