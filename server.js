@@ -32,17 +32,17 @@ let videoInfo = JSON.parse(fs.readFileSync(VIDEO_INFO_FILE, "utf-8"));
 // Http request processing
 server.on("request", (req, res) => {
   const parsedUrl = url.parse(req.url, true);
-  res.setHeader('Access-Control-Allow-Origin', 'https://vrdanmaku.uk');  
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');  
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');  
-  res.setHeader('Access-Control-Allow-Credentials', 'true');  
-  
+  res.setHeader('Access-Control-Allow-Origin', 'https://vrdanmaku.uk');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
   // Handle options preflight requests
-  if (req.method === 'OPTIONS') {  
-    res.writeHead(200);  
-    res.end();  
-    return;  
-  }  
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
 
   // Process video upload
   if (req.method === "POST" && parsedUrl.pathname === "/upload") {
@@ -50,15 +50,15 @@ server.on("request", (req, res) => {
       uploadDir: VIDEOS_DIR,
       keepExtensions: true,
       maxFileSize: 2000 * 1024 * 1024, // Set video limitation 2GB  
-      multiples: true 
+      multiples: true
     });
 
     form.parse(req, (err, fields, files) => {
       if (err) {
-        console.error("Detail upload error:", err);  
+        console.error("Detail upload error:", err);
         // The error message is correctly sent back to the client
-        res.writeHead(500, { "Content-Type": "application/json" });  
-        res.end(JSON.stringify({ success: false, message: err.message })); 
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ success: false, message: err.message }));
         return;
       }
 
@@ -96,7 +96,7 @@ server.on("request", (req, res) => {
 
         videoInfo.videos.push(newVideo);
         fs.writeFileSync(VIDEO_INFO_FILE, JSON.stringify(videoInfo), "utf-8");
-  
+
         broadcastVideoList();
 
         console.log("Upload success, sending response:", { success: true, video: newVideo });
@@ -104,8 +104,8 @@ server.on("request", (req, res) => {
         res.end(JSON.stringify({ success: true, video: newVideo }));
       } catch (error) {
         console.error("Error processing upload:", error);
-        res.writeHead(500, { "Content-Type": "application/json" });  
-        res.end(JSON.stringify({ success: false, message: error.message }));  
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ success: false, message: error.message }));
       }
     });
     return;
@@ -144,11 +144,16 @@ function loadAnnotationLibrary() {
 // Save annotation library
 function saveAnnotationLibrary(library) {
   const filepath = path.join(__dirname, GLOBAL_ANNOTATION_FILE);
-  fs.writeFileSync(filepath, JSON.stringify(library, null, 2), "utf-8");
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(library, null, 2), "utf-8");
+    console.log("Annotation library saved successfully");
+  } catch (error) {
+    console.error("Error saving annotation library:", error);
+  }
 }
 
 wss.on("connection", (ws) => {
-
+  console.log("New client connected");  
   // Send the video list to the new client 
   ws.send(
     JSON.stringify({
@@ -159,6 +164,7 @@ wss.on("connection", (ws) => {
 
   // Send existing annotations to the new client
   const library = loadAnnotationLibrary();
+  console.log("Sending existing annotations to new client");
   ws.send(JSON.stringify({
     type: "existing_annotation",
     data: library
@@ -166,7 +172,7 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (message) => {
     const parsedMessage = JSON.parse(message);
-
+    console.log("Received message type:", parsedMessage.type);
     if (parsedMessage.type === "new_video") {
       const library = loadAnnotationLibrary();
       // Send existing annotation to the client
@@ -182,32 +188,46 @@ wss.on("connection", (ws) => {
 
       // Save the annotation message to the library
       const library = loadAnnotationLibrary();
-      library.push(annotationMessage);
-      saveAnnotationLibrary(library);
+      // Check if the annotation already exists
+      const exists = library.some(anno =>
+        anno.text === annotationMessage.text &&
+        anno.time === annotationMessage.time &&
+        anno.videoLink === annotationMessage.videoLink
+      );
+      // Add and broadcast only if it does not exist
+      if (!exists) {
+        library.push(annotationMessage);
+        saveAnnotationLibrary(library);
 
-      // Broadcast annotation messages to all clients
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(
-            JSON.stringify({ type: "new_annotation", data: annotationMessage })
-          );
-        }
-      });
+        // Broadcast annotation messages to all clients 
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(
+              JSON.stringify({ type: "new_annotation", data: annotationMessage })
+            );
+          }
+        });
+      }
     }
     else if (parsedMessage.type === "delete_annotation") {
       // Load existing annotations
       const library = loadAnnotationLibrary();
+      console.log("Received delete request:", parsedMessage);  
+      console.log("Current library before deletion:", library);  
 
       // Find and delete the specified annotation
+      const EPSILON = 0.001; //Permitted time error range
       const annotationIndex = library.findIndex(a =>
-        a.time === parsedMessage.time &&
-        a.text === parsedMessage.text &&
-        a.videoLink === parsedMessage.videoLink
+        Math.abs(a.time - parsedMessage.time) < EPSILON &&
+        a.text === parsedMessage.text
       );
 
+      console.log("Found annotation at index:", annotationIndex);  
+
       if (annotationIndex !== -1) {
-        library.splice(annotationIndex, 1);//Remove comments from the library
-        saveAnnotationLibrary(library);//Save updated comment library
+        library.splice(annotationIndex, 1);//Remove annotation from the library
+        saveAnnotationLibrary(library);//Save updated annotation library
+        console.log("Library after deletion:", library);  
 
         // Broadcast delete events to all clients
         wss.clients.forEach((client) => {
@@ -220,10 +240,12 @@ wss.on("connection", (ws) => {
             );
           }
         });
+      }else {
+        console.log("Annotation not found for deletion:", parsedMessage);  
       }
     }
     else if (parsedMessage.type === "update_video_name") {
-      // 更新视频名称  
+      //Update video name
       const { videoId, newName } = parsedMessage;
       const videoIndex = videoInfo.videos.findIndex(v => v.id === videoId);
 
@@ -258,7 +280,7 @@ wss.on("connection", (ws) => {
       }
     }
     else if (parsedMessage.type === "request_video_list") {
-      // 发送视频列表  
+      // Send video list
       ws.send(
         JSON.stringify({
           type: "video_list",

@@ -690,7 +690,7 @@
         var camera = document.getElementById("camera"); // Get the a-camera element
         var position = getWorldPosition(camera);
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
-        addAnnotation(text, position, currentVid.currentTime);
+
         annotationInput.value = "";
         // Sending a annotation to a WebSocket server
         ws.send(
@@ -908,30 +908,41 @@
       return { x: position.x, y: position.y, z: position.z };
     }
 
-    function addAnnotation(text, position, startTime) {
-      // add annotation to the share list
-      annotationList.push({
-        text: text,
-        position: position,
-        startTime: startTime,
-        shown: false
-      });
+    function addAnnotation(text, position, time) {
+      // Check if this annotation already exists in the list
+      const alreadyExists = annotationList.some(anno =>
+        anno.text === text &&
+        anno.time === time
+      );
 
-      // update the annotation table if it is displayed
-      if (annotationListContent.style.display === 'block') {
-        updateAnnotationTable();
-      }
-
-      // send annotation to the WebSocket server
-      ws.send(
-        JSON.stringify({
-          type: "new_annotation",
+      if (!alreadyExists) {
+        // Add to local list
+        annotationList.push({
           text: text,
           position: position,
-          videoLink: currentVideoLink,
-          time: currentVid.currentTime,
-        })
-      );;
+          time: time,
+          shown: false
+        });
+
+        // update the annotation table if it is displayed
+        if (annotationListContent.style.display === 'block') {
+          updateAnnotationTable();
+        }
+
+        // get the current video index
+        const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
+
+        // send annotation to the WebSocket server
+        ws.send(
+          JSON.stringify({
+            type: "new_annotation",
+            text: text,
+            position: position,
+            videoLink: currentVideoLink,
+            time: currentVid.currentTime,
+          })
+        );
+      }
     }
 
     function updateAnnotationPositions() {
@@ -939,7 +950,7 @@
         currentVideoIndex === 1 ? vid1.currentTime : vid2.currentTime;
 
       annotationList.forEach(function (annotation) {
-        if (!annotation.shown && currentTime >= annotation.startTime) {
+        if (!annotation.shown && currentTime >= annotation.time) {
           // creat the annotation background 
           var backgroundEntity = document.createElement('a-plane');
           backgroundEntity.setAttribute('color', 'black');
@@ -970,7 +981,7 @@
         }
 
         if (annotation.shown) {
-          var elapsedTime = currentTime - annotation.startTime;
+          var elapsedTime = currentTime - annotation.time;
           var distanceTraveled = elapsedTime * videoSpeed;
 
           var newPosition = {
@@ -1051,7 +1062,7 @@
     printButton.addEventListener("click", function () {
       var output = "Annotation Information:\n\n";
       annotationList.forEach(function (annotation) {
-        output += `Text: ${annotation.text}, Position: (${annotation.position.x}, ${annotation.position.y}, ${annotation.position.z}), Time: ${annotation.startTime}s\n`;
+        output += `Text: ${annotation.text}, Position: (${annotation.position.x}, ${annotation.position.y}, ${annotation.position.z}), Time: ${annotation.time}s\n`;
       });
       var blob = new Blob([output], { type: "text/plain;charset=utf-8" });
       var link = document.createElement("a");
@@ -1133,7 +1144,7 @@
         row.dataset.index = index;
 
         // format the time
-        const timeFormatted = formatTime(annotation.startTime);
+        const timeFormatted = formatTime(annotation.time);
 
         row.innerHTML = `  
       <td>${timeFormatted}</td>  
@@ -1179,13 +1190,16 @@
       if (selectedAnnotationIndex >= 0 && selectedAnnotationIndex < annotationList.length) {
         const annotation = annotationList[selectedAnnotationIndex];
 
+        console.log("Deleting annotation:", annotation);
+
         // send delete annotation message to the server
-        ws.send(JSON.stringify({
+        const deleteMessage = {
           type: "delete_annotation",
           time: annotation.time,
           text: annotation.text,
-          videoLink: currentVideoLink
-        }));
+        };
+        console.log("Sending delete message:", deleteMessage);
+        ws.send(JSON.stringify(deleteMessage));
 
         // remove the annotation entity from the scene
         if (annotation.entity) {
@@ -1211,7 +1225,7 @@
         const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
 
         // jump to the annotation time
-        currentVid.currentTime = annotation.startTime;
+        currentVid.currentTime = annotation.time;
 
         // update the timeline
         updateAnnotationPositions();
@@ -1471,19 +1485,29 @@
       try {
         var data = JSON.parse(event.data);
         if (data.type === "existing_annotation") {
-          annotationList = []; // Clear existing comments 
-          // Add comments sent by the server
+          annotationList = []; // Clear existing annotations before adding new ones 
+          // Add annotations sent by the server
           data.data.forEach((annotationMessage) => {
-            addAnnotation(
-              annotationMessage.text,
-              annotationMessage.position,
-              annotationMessage.time
-            );
+            // Add to local list only
+            annotationList.push({
+              text: annotationMessage.text,
+              position: annotationMessage.position,
+              time: annotationMessage.time,
+              shown: false
+            });
           });
+          updateAnnotationTable();
         } else if (data.type === "new_annotation") {
-          addAnnotation(data.data.text, data.data.position, data.data.time);
+          // New annotations received from the server are added to the local list only
+          annotationList.push({
+            text: data.data.text,
+            position: data.data.position,
+            time: data.data.time,
+            shown: false
+          });
+          updateAnnotationTable();
         } else if (data.type === "annotation_deleted") {
-          annotationList.splice(data.data.index, 1); // Delete items in the local comment list 
+          annotationList.splice(data.data.index, 1); // Delete items in the local annotation list 
           updateAnnotationTable();
           updateAnnotationPositions();
         } else if (data.type === "video_list") {
