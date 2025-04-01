@@ -475,9 +475,6 @@
 
 <body>
   <button id="play-button">▶️</button>
-  <!-- <button id="upload-button">⏫</button>
-  <button id="link-button">🔗</button>
-  <button id="exit-button">✖</button> -->
   <button id="link-confirm">✔</button>
   <button id="mic-button">🎤</button>
   <button id="rewind-button">⏪</button>
@@ -494,7 +491,7 @@
 
   <div id="annotation-list-container">
     <div id="annotation-list-header">
-      <span>Annotation List</span>
+      <span>Annotations List</span>
       <div class="header-actions">
         <button id="annotation-list-toggle">▼</button>
       </div>
@@ -585,7 +582,6 @@
     var linkConfirm = document.getElementById("link-confirm");
     var switchVideoButton = document.getElementById("switch-video-button");
     var videoLabel = document.getElementById('video-label');
-    // var exitButton = document.getElementById("exit-button");
     var printButton = document.getElementById("print-button");
 
     var playButton = document.getElementById("play-button");
@@ -619,7 +615,7 @@
         console.log("Connected to WebSocket server");
         clearTimeout(wsReconnectTimer);
 
-        // 连接成功后请求视频列表  
+        // Request a video list after successful connection 
         ws.send(JSON.stringify({
           type: 'request_video_list'
         }));
@@ -654,7 +650,7 @@
       };
     }
 
-    // 初始连接  
+    // Initial connection  
     connectWebSocket();
 
     function requestDeviceMotionPermission() {
@@ -708,20 +704,6 @@
         );
       }
     });
-
-    // exitButton.addEventListener("click", function (e) {
-    //   const currentVid = currentVideoIndex === 1 ? vid1 : vid2;
-    //   currentVid.pause();
-    //   vid1.src = "";
-    //   vid2.src = "";
-    //   currentVideoLink = "";
-    //   playButton.style.display = "block";
-    //   uploadButton.style.display = "block";
-    //   linkButton.style.display = "block";
-    //   linkInput.style.display = "block";
-    //   linkConfirm.style.display = "block";
-    //   this.style.display = "none";
-    // }, false);
 
     // Video synchronization controller  
     class VideoSyncController {
@@ -832,12 +814,12 @@
 
     // video load event
     function handleVideoLoad(videoId, url) {
-      // 处理相对路径，确保使用完整URL  
+      // Handle relative paths to ensure the use of complete urls 
       if (url.startsWith('/videos/')) {
         url = 'https://vrdanmaku.uk:8080' + url;
       }
 
-      // 设置视频源  
+      // Set up video source
       if (videoId === 'vid1') {
         vid1.src = url;
         vid1.load();
@@ -851,14 +833,13 @@
       currentVideoLink = url;
       playButton.style.display = 'block';
 
-      // 发送视频加载事件到服务器  
+      // Send video loading event to the server 
       ws.send(JSON.stringify({
         type: 'new_video',
         videoLink: url,
         videoIndex: videoId === 'vid1' ? 1 : 2
       }));
 
-      // 更新UI  
       updateVideoTable();
     }
 
@@ -1198,7 +1179,7 @@
       if (selectedAnnotationIndex >= 0 && selectedAnnotationIndex < annotationList.length) {
         const annotation = annotationList[selectedAnnotationIndex];
 
-        // 发送删除请求到服务器  
+        // send delete annotation message to the server
         ws.send(JSON.stringify({
           type: "delete_annotation",
           time: annotation.time,
@@ -1257,9 +1238,9 @@
     let videoList = [];
     let selectedVideoId = null;
 
-    // 切换视频列表显示  
+    // Switch video list display
     videoListHeader.addEventListener('click', function (e) {
-      if (e.target.tagName === 'BUTTON') return; // 忽略按钮点击  
+      if (e.target.tagName === 'BUTTON') return; // Ignore button click 
 
       if (videoListContent.style.display === 'block') {
         videoListContent.style.display = 'none';
@@ -1271,7 +1252,7 @@
       }
     });
 
-    // 显示视频操作弹出菜单  
+    // Display video operation pop-up menu
     function showVideoActions(x, y, videoId) {
       selectedVideoId = videoId;
       videoActionPopup.style.left = x + 'px';
@@ -1279,7 +1260,7 @@
       videoActionPopup.classList.remove('hidden');
     }
 
-    // 隐藏视频操作弹出菜单  
+    // Hide video operation pop-up menu
     document.addEventListener('click', function (e) {
       if (!videoActionPopup.contains(e.target) &&
         !e.target.closest('#video-table tr')) {
@@ -1287,14 +1268,14 @@
       }
     });
 
-    // 更新视频表格  
+    // Update video table  
     function updateVideoTable() {
       videoTableBody.innerHTML = '';
       videoList.forEach(video => {
         const row = document.createElement('tr');
         row.dataset.id = video.id;
 
-        // 创建标签元素  
+        // Create tag elements
         let tagHtml = '';
         if (video.url === videos.vid1.src) {
           tagHtml += '<span class="video-tag">vid1</span>';
@@ -1317,7 +1298,7 @@
       });
     }
 
-    // 重命名视频  
+    // Rename the video  
     videoRenameBtn.addEventListener('click', function () {
       const video = videoList.find(v => v.id === selectedVideoId);
       if (video) {
@@ -1333,7 +1314,7 @@
       videoActionPopup.classList.add('hidden');
     });
 
-    // 删除视频  
+    // Delete the video  
     videoDeleteBtn.addEventListener('click', function () {
       if (confirm('Are you sure you want to delete this video?')) {
         ws.send(JSON.stringify({
@@ -1344,7 +1325,7 @@
       videoActionPopup.classList.add('hidden');
     });
 
-    // 选择为vid1  
+    // Choose the video as vid1
     videoSelectVid1Btn.addEventListener('click', function () {
       const video = videoList.find(v => v.id === selectedVideoId);
       if (video) {
@@ -1353,7 +1334,7 @@
       }
     });
 
-    // 选择为vid2  
+    // Choose the video as vid2 
     videoSelectVid2Btn.addEventListener('click', function () {
       const video = videoList.find(v => v.id === selectedVideoId);
       if (video) {
@@ -1372,18 +1353,18 @@
       var file = e.target.files[0];
       if (!file) return;
 
-      // 创建FormData对象  
+      // Create a FormData object to send the file 
       const formData = new FormData();
       formData.append('video', file);
       formData.append('name', file.name);
 
-      // 发送上传请求 - 带详细调试信息  
+      // Send upload request -with detailed debugging information  
       fetch('https://vrdanmaku.uk:8080/upload', {
         method: 'POST',
         body: formData,
         signal: AbortSignal.timeout(60000), // 60s timeout
-        credentials: 'include', //跨域凭证支持  
-        mode: 'cors' // 明确设置跨域模式  
+        credentials: 'include', //Cross-domain credential support
+        mode: 'cors' // Clearly set cross-domain mode
       })
         .then(response => {
           console.log("Response status:", response.status);
@@ -1401,7 +1382,7 @@
         })
         .then(data => {
           console.log("Upload success:", data);
-          // 重新请求视频列表以确保UI更新  
+          // Request the video list to ensure UI is updated 
           if (ws.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({ type: 'request_video_list' }));
           }
@@ -1414,7 +1395,7 @@
           alert('Upload failed: ' + error.message);
         });
 
-      this.value = ''; // 重置输入框  
+      this.value = ''; // Reset the input box 
     }, false);
 
     linkButton.addEventListener("click", function (e) {
@@ -1459,9 +1440,9 @@
       false
     );
 
-    // 处理视频加载  
+    // Process video loading
     function handleVideoLoad(videoId, url) {
-      // 设置视频源  
+      // Set up video source
       if (videoId === 'vid1') {
         vid1.src = url;
         vid1.load();
@@ -1474,29 +1455,24 @@
 
       currentVideoLink = url;
       playButton.style.display = 'block';
-      // exitButton.style.display = 'block';
 
-      // 发送视频加载事件到服务器  
+      // Send video loading event to the server 
       ws.send(JSON.stringify({
         type: 'new_video',
         videoLink: url,
         videoIndex: videoId === 'vid1' ? 1 : 2
       }));
 
-      // 更新UI  
       updateVideoTable();
     }
 
-    // WebSocket 处理  
+    // WebSocket processing  
     ws.onmessage = function (event) {
       try {
         var data = JSON.parse(event.data);
-
         if (data.type === "existing_annotation") {
-          // 清空现有注释  
-          annotationList = [];
-
-          // 添加服务器发送的注释  
+          annotationList = []; // Clear existing comments 
+          // Add comments sent by the server
           data.data.forEach((annotationMessage) => {
             addAnnotation(
               annotationMessage.text,
@@ -1507,17 +1483,17 @@
         } else if (data.type === "new_annotation") {
           addAnnotation(data.data.text, data.data.position, data.data.time);
         } else if (data.type === "annotation_deleted") {
-          annotationList.splice(data.data.index, 1); // 删除本地注释列表中的项目 
-          updateAnnotationTable(); // 更新UI  
+          annotationList.splice(data.data.index, 1); // Delete items in the local comment list 
+          updateAnnotationTable();
           updateAnnotationPositions();
         } else if (data.type === "video_list") {
           videoList = data.data;
           updateVideoTable();
         } else if (data.type === "video_loaded") {
-          // 处理其他客户端加载的视频  
+          // Handle videos loaded by other clients 
           const videoId = data.videoIndex === 1 ? 'vid1' : 'vid2';
 
-          // 只有当当前没有播放视频时才自动加载  
+          // Automatically load only if the video is not currently played
           if (!vid1.src && !vid2.src) {
             handleVideoLoad(videoId, data.videoLink);
           }
@@ -1527,7 +1503,7 @@
       }
     };
 
-    // 页面加载时请求视频列表  
+    // Request a list of videos when the page loads 
     window.addEventListener('load', function () {
       ws.send(JSON.stringify({
         type: 'request_video_list'
