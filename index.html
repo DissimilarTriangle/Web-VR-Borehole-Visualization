@@ -394,25 +394,70 @@
       #forward-button,
       #mic-button {
         width: 2.5em;
-        /* Smaller size */
         height: 2.5em;
         font-size: 1rem;
       }
 
+      #switch-video-button {
+        top: 10px;
+        left: 260px;
+      }
+
       #print-button {
         top: 10px;
-        right: calc(40%);
+        right: calc(35%);
       }
 
       #video-list-container {
-        width: 250px;
+        width: 230px;
         max-height: 30vh;
+      }
+
+      #video-list-header {
+        padding: 6px;
+        font-size: 0.85rem;
+        background-color: rgba(30, 30, 30, 0.9);
+        border-bottom: 1px solid #444;
+      }
+
+      #video-list-header>span {
+        font-size: 0.85rem;
+      }
+
+      .header-actions button {
+        font-size: 1em;
+        margin-left: 3px;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #video-table th,
+      #video-table td {
+        padding: 4px;
+        font-size: 0.8rem;
+        text-align: left;
+        border-bottom: 1px solid #444;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #video-table tr:nth-child(even) {
+        background-color: rgba(50, 50, 50, 0.5);
       }
 
       #video-label {
         position: fixed;
         top: 13px;
-        left: calc(50%-5em);
+        left: 345px;
         width: 3.5em;
         height: 1.5em;
         background-color: #333;
@@ -469,7 +514,32 @@
         z-index: 10;
       }
 
+      #switch-video-button,
+      #print-button,
+      #rewind-button,
+      #play-button,
+      #pause-button,
+      #forward-button,
+      #mic-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        line-height: 1;
+      }
+
+      #switch-video-button span,
+      #print-button span,
+      #rewind-button span,
+      #play-button span,
+      #pause-button span,
+      #forward-button span,
+      #mic-button span {
+        display: block;
+        text-align: center;
+      }
     }
+
   </style>
 </head>
 
