@@ -1,0 +1,231 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.2 Chrome/134.0.6998.205 Electron/35.3.0 Safari/537.36" version="27.0.2">
+  <diagram name="Page-1" id="c37626ed-c26b-45fb-9056-f9ebc6bb27b6">
+    <mxGraphModel dx="2833" dy="1031" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="zavexWquX2bUoKeGTSf7-135" value="" style="rounded=0;whiteSpace=wrap;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="-1030" y="36.5" width="990" height="963.5" as="geometry" />
+        </mxCell>
+        <mxCell id="1c7a67bf8fd3230f-83" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 25px; font-weight: normal; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;AWS Server (Ubuntu)&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;shadow=0;comic=0;strokeWidth=1;fontFamily=Verdana;fontSize=14;fillColor=#FFFFFF;strokeColor=default;verticalAlign=top;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;labelPosition=center;verticalLabelPosition=bottom;align=center;" parent="1" vertex="1">
+          <mxGeometry x="-850" y="640" width="650" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-78" value="&lt;font style=&quot;font-weight: normal; font-size: 20px;&quot;&gt;&amp;nbsp;User 2&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=0;shadow=0;comic=0;strokeWidth=1;fontFamily=Verdana;fontSize=14;fillColor=#FFFFFF;strokeColor=default;fontStyle=1;verticalAlign=bottom;align=left;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;labelPosition=center;verticalLabelPosition=top;" parent="1" vertex="1">
+          <mxGeometry x="-550" y="90" width="330" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-133" value="&lt;b&gt;&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;server.js&lt;/font&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#000000;strokeWidth=2;fontSize=17;" parent="1" vertex="1">
+          <mxGeometry x="-830" y="660" width="610" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="1c7a67bf8fd3230f-80" value="&lt;font style=&quot;font-weight: normal; font-size: 20px;&quot;&gt;&amp;nbsp;User 1&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=0;shadow=0;comic=0;strokeWidth=1;fontFamily=Verdana;fontSize=14;fillColor=#FFFFFF;strokeColor=default;fontStyle=1;verticalAlign=bottom;align=left;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;labelPosition=center;verticalLabelPosition=top;" parent="1" vertex="1">
+          <mxGeometry x="-1000" y="90" width="330" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-62" value="&lt;div style=&quot;line-height: 170%;&quot;&gt;&lt;div&gt;&lt;b&gt;&lt;span style=&quot;--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; box-sizing: border-box; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; scrollbar-color: auto; scrollbar-width: auto; border: 0px solid rgb(229, 231, 235); color: rgba(6, 8, 31, 0.88); font-family: D-DINExp, &amp;quot;DM Sans&amp;quot;, -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; text-align: left; background-color: rgb(255, 255, 255); line-height: 170%;&quot;&gt;Apache&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; box-sizing: border-box; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; scrollbar-color: auto; scrollbar-width: auto; border: 0px solid rgb(229, 231, 235); color: rgba(6, 8, 31, 0.88); font-family: D-DINExp, &amp;quot;DM Sans&amp;quot;, -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; text-align: left; background-color: rgb(255, 255, 255); line-height: 170%;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: rgba(6, 8, 31, 0.88); font-family: D-DINExp, &amp;quot;DM Sans&amp;quot;, -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; text-align: left; background-color: rgb(255, 255, 255); line-height: 170%;&quot;&gt;HTTPS):&lt;/span&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgba(6, 8, 31, 0.88); font-family: D-DINExp, &amp;quot;DM Sans&amp;quot;, -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; text-align: left; line-height: 170%;&quot;&gt;Load page and static resources to client&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-816.82" y="690" width="202.82" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-123" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=classic;endFill=1;shape=link;strokeColor=#FF9933;strokeWidth=2;fillColor=#ffcd28;gradientColor=#ffa500;" parent="1" source="zavexWquX2bUoKeGTSf7-48" target="zavexWquX2bUoKeGTSf7-62" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-908" y="620" />
+              <mxPoint x="-766" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-48" value="Client 1 (Browser Webpage / Front-End)" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;align=left;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;" parent="1" vertex="1">
+          <mxGeometry x="-980.19" y="120.59" width="290.37" height="348.82" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-2" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.cloud_2;fillColor=#F58534;gradientColor=none;" parent="1" vertex="1">
+          <mxGeometry x="-723.1" y="943" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-22" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=0;exitDx=0;exitDy=0;strokeWidth=0;fillColor=#FF9933;strokeColor=none;shape=flexArrow;" parent="1" source="zavexWquX2bUoKeGTSf7-63" target="zavexWquX2bUoKeGTSf7-48" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-663.6651999999999" y="517.3479" as="sourcePoint" />
+            <mxPoint x="-1034" y="446" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-45" value="&lt;font style=&quot;font-size: 16px; color: rgb(255, 153, 51);&quot;&gt;&lt;b style=&quot;&quot;&gt;WebSocket Communication&lt;/b&gt;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zavexWquX2bUoKeGTSf7-22" vertex="1" connectable="0">
+          <mxGeometry x="-0.2464" y="1" relative="1" as="geometry">
+            <mxPoint x="-101" y="-19" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-30" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=7;rounded=0;fontSize=28;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-150" y="188.94" as="sourcePoint" />
+            <mxPoint x="-80" y="188.94" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-9" value="&amp;nbsp;iOS phone" style="verticalLabelPosition=middle;html=1;verticalAlign=middle;align=left;strokeColor=none;fillColor=#FF9933;shape=mxgraph.azure.mobile_services;pointerEvents=1;direction=east;labelPosition=right;" parent="1" vertex="1">
+          <mxGeometry x="-442.47" y="50" width="24.16" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-63" value="&lt;p style=&quot;line-height: 170%;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgba(6, 8, 31, 0.88); font-family: D-DINExp, &amp;quot;DM Sans&amp;quot;, -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; line-height: 170%;&quot;&gt;&lt;b&gt;WebSocket (Realtime Sync)：&lt;/b&gt;&lt;br&gt;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgba(6, 8, 31, 0.88); font-family: D-DINExp, &amp;quot;DM Sans&amp;quot;, -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; line-height: 170%;&quot;&gt;Message processing (video processing, annotation processing, broadcast updating)&lt;/span&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="-589.82" y="690" width="350" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-117" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" parent="1" source="zavexWquX2bUoKeGTSf7-29" target="zavexWquX2bUoKeGTSf7-63" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-29" value="Annotation DB (JSON)&lt;span style=&quot;background-color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#FF9933;shadow=0;dashed=0;shape=mxgraph.ios7.icons.data;" parent="1" vertex="1">
+          <mxGeometry x="-362.4999999999999" y="830" width="70" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-72" value="&lt;b&gt;A-Frame VR Player&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#FF9933;align=left;labelPosition=center;verticalLabelPosition=top;verticalAlign=bottom;fontColor=#FF9933;strokeWidth=2;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="-970" y="300" width="270" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-763.086956521739" y="220.86" as="sourcePoint" />
+            <mxPoint x="-887.8099999999997" y="340" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-763" y="319" />
+              <mxPoint x="-888" y="319" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-23" value="VR Video 1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=none;gradientDirection=north;fillColor=#FF9933;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ar_vr;labelPosition=center;" parent="1" vertex="1">
+          <mxGeometry x="-946.31" y="341" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-37" value="VR Video 2" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=none;gradientDirection=north;fillColor=#FF9933;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ar_vr;labelPosition=center;" parent="1" vertex="1">
+          <mxGeometry x="-802.0999999999999" y="341" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" parent="1" source="zavexWquX2bUoKeGTSf7-23" target="zavexWquX2bUoKeGTSf7-37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-42" value="Switch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zavexWquX2bUoKeGTSf7-41" vertex="1" connectable="0">
+          <mxGeometry x="-0.0511" y="-1" relative="1" as="geometry">
+            <mxPoint x="2" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zavexWquX2bUoKeGTSf7-39" target="zavexWquX2bUoKeGTSf7-37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-76" value="Load,&amp;nbsp;&lt;div&gt;Remove&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zavexWquX2bUoKeGTSf7-66" vertex="1" connectable="0">
+          <mxGeometry x="-0.2523" y="3" relative="1" as="geometry">
+            <mxPoint x="22" y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-39" value="Video List&amp;nbsp;&lt;div&gt;(Local Storge)&lt;/div&gt;" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#FF9933;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;shape=mxgraph.gcp2.view_list;align=center;" parent="1" vertex="1">
+          <mxGeometry x="-788.5" y="159.15" width="50.8" height="62.71" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;exitX=0.515;exitY=1.001;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="zavexWquX2bUoKeGTSf7-40" target="zavexWquX2bUoKeGTSf7-72" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-904" y="230" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="-903" y="230" />
+              <mxPoint x="-904" y="230" />
+              <mxPoint x="-904" y="270" />
+              <mxPoint x="-835" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-75" value="Add,&amp;nbsp;&lt;div&gt;Delete,&amp;nbsp;&lt;/div&gt;&lt;div&gt;Jump&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zavexWquX2bUoKeGTSf7-74" vertex="1" connectable="0">
+          <mxGeometry x="-0.7207" relative="1" as="geometry">
+            <mxPoint x="21" y="6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-40" value="Annotation List&lt;div&gt;(Local Storge)&lt;/div&gt;" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#FF9933;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;shape=mxgraph.gcp2.view_list;align=center;" parent="1" vertex="1">
+          <mxGeometry x="-930.31" y="157.44000000000003" width="52.18" height="64.42" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-79" value="Client 2 (Browser Webpage / Front-End)" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;align=left;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;" parent="1" vertex="1">
+          <mxGeometry x="-530.19" y="121.59000000000003" width="290.37" height="348.82" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-81" value="&lt;b&gt;A-Frame VR Player&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#FF9933;align=left;labelPosition=center;verticalLabelPosition=top;verticalAlign=bottom;fontColor=#FF9933;strokeWidth=2;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="-520" y="300" width="270" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-82" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-313.086956521739" y="220.86" as="sourcePoint" />
+            <mxPoint x="-437.8099999999997" y="340" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-313" y="319" />
+              <mxPoint x="-438" y="319" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-83" value="VR Video 1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=none;gradientDirection=north;fillColor=#FF9933;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ar_vr;labelPosition=center;" parent="1" vertex="1">
+          <mxGeometry x="-496.30999999999995" y="341" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-84" value="VR Video 2" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=none;gradientDirection=north;fillColor=#FF9933;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ar_vr;labelPosition=center;" parent="1" vertex="1">
+          <mxGeometry x="-352.0999999999999" y="341" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" parent="1" source="zavexWquX2bUoKeGTSf7-83" target="zavexWquX2bUoKeGTSf7-84" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-86" value="Switch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zavexWquX2bUoKeGTSf7-85" vertex="1" connectable="0">
+          <mxGeometry x="-0.0511" y="-1" relative="1" as="geometry">
+            <mxPoint x="2" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zavexWquX2bUoKeGTSf7-89" target="zavexWquX2bUoKeGTSf7-84" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-88" value="Load,&amp;nbsp;&lt;div&gt;Remove&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zavexWquX2bUoKeGTSf7-87" vertex="1" connectable="0">
+          <mxGeometry x="-0.2523" y="3" relative="1" as="geometry">
+            <mxPoint x="22" y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-89" value="Video List&amp;nbsp;&lt;div&gt;(Local Storge)&lt;/div&gt;" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#FF9933;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;shape=mxgraph.gcp2.view_list;align=center;" parent="1" vertex="1">
+          <mxGeometry x="-338.5" y="159.14999999999998" width="50.8" height="62.71" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=none;startFill=0;exitX=0.515;exitY=1.001;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="zavexWquX2bUoKeGTSf7-92" target="zavexWquX2bUoKeGTSf7-81" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-454" y="230" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="-453" y="230" />
+              <mxPoint x="-454" y="230" />
+              <mxPoint x="-454" y="270" />
+              <mxPoint x="-385" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-91" value="Add,&amp;nbsp;&lt;div&gt;Delete,&amp;nbsp;&lt;/div&gt;&lt;div&gt;Jump&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zavexWquX2bUoKeGTSf7-90" vertex="1" connectable="0">
+          <mxGeometry x="-0.7207" relative="1" as="geometry">
+            <mxPoint x="21" y="6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-92" value="Annotation List&lt;div&gt;(Local Storge)&lt;/div&gt;" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#FF9933;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;shape=mxgraph.gcp2.view_list;align=center;" parent="1" vertex="1">
+          <mxGeometry x="-480.30999999999995" y="157.44000000000005" width="52.18" height="64.42" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-95" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=0;fillColor=#FF9933;strokeColor=none;shape=flexArrow;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="zavexWquX2bUoKeGTSf7-63" target="zavexWquX2bUoKeGTSf7-79" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-330" y="691" as="sourcePoint" />
+            <mxPoint x="-330" y="470.40999999999997" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-97" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=7;rounded=0;fontSize=28;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-140" y="590" as="sourcePoint" />
+            <mxPoint x="-70" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-98" value="&lt;span style=&quot;text-align: left;&quot;&gt;&amp;nbsp;Windows PC/Laptop&lt;/span&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#FF9933;labelPosition=right;verticalLabelPosition=middle;verticalAlign=middle;outlineConnect=0;align=left;shape=mxgraph.office.devices.workstation_pc;" parent="1" vertex="1">
+          <mxGeometry x="-900" y="47" width="34.87" height="39" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-106" value="Video DB (JSON)&lt;span style=&quot;background-color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#FF9933;shadow=0;dashed=0;shape=mxgraph.ios7.icons.data;" parent="1" vertex="1">
+          <mxGeometry x="-480.31000000000006" y="830" width="70" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-119" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="zavexWquX2bUoKeGTSf7-118" target="zavexWquX2bUoKeGTSf7-62" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-118" value="index.html" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#FF9933;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" parent="1" vertex="1">
+          <mxGeometry x="-756" y="826" width="82" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-127" value="&lt;font style=&quot;color: rgb(255, 153, 51);&quot;&gt;&lt;b&gt;DNS Resolution &amp;amp; Web Load&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="-914.1" y="590" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-130" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=classic;endFill=1;shape=link;strokeColor=#FF9933;strokeWidth=2;fillColor=#ffcd28;gradientColor=#ffa500;" parent="1" target="zavexWquX2bUoKeGTSf7-62" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-485.82" y="470.40999999999997" as="sourcePoint" />
+            <mxPoint x="-343.82" y="691.41" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-486" y="621" />
+              <mxPoint x="-715" y="621" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-132" value="&lt;font style=&quot;color: rgb(255, 153, 51);&quot;&gt;&lt;b&gt;DNS Resolution &amp;amp; Web Load&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="-681.31" y="590" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zavexWquX2bUoKeGTSf7-134" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.411;entryY=0.989;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" parent="1" source="zavexWquX2bUoKeGTSf7-106" target="zavexWquX2bUoKeGTSf7-63" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
