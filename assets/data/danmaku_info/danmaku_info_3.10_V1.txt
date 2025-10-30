@@ -1,0 +1,4 @@
+Danmaku Information:
+
+Text: Hello. Hello. Can you
+ recognize my voice?, Position: (0.4675274209352523, 2.04036194899595, -1.8940695372475749), Time: 21.164144s
